@@ -3,495 +3,423 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مكتبة ألعابي — Backlog Command Center</title>
+<title>مكتبة ألعابي — Gaming Backlog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#050913;
-    --panel:#0b1426;
-    --panel2:#101b31;
-    --panel3:#15243d;
-    --ink:#f5f8ff;
-    --muted:#9aa9c4;
-    --dim:#5e6f90;
-    --line:rgba(151,185,255,.13);
-    --line2:rgba(151,185,255,.24);
-    --accent:#31a9ff;
-    --accent2:#69e6ff;
-    --accent3:#8b7cff;
-    --accentSoft:rgba(49,169,255,.16);
-    --gold:#ffd166;
-    --playing:#4cc9f0;
-    --done:#55d68b;
-    --red:#ff6b7a;
-    --shadow:0 24px 80px rgba(0,10,32,.55);
-    --r:8px;
+    --bg:#070a16; --sidebar:#0a0f20; --panel:#0e1428; --panel2:#131b33; --panel3:#18213c;
+    --ink:#eef1ff; --muted:#9aa3c7; --dim:#5c6690;
+    --line:rgba(140,150,255,.12); --line2:rgba(140,150,255,.24);
+    --accent:#7c6cff; --accent2:#54d1ff; --accentSoft:rgba(124,108,255,.16);
+    --gold:#ffd166; --playing:#4cc9f0; --done:#55d68b; --wish:#ff8fc7; --red:#ff6b7a;
+    --grad:linear-gradient(135deg,#7c6cff,#54d1ff);
+    --shadow:0 24px 70px -24px rgba(0,6,30,.8);
+    --r:14px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
     margin:0; font-family:"Tajawal","Segoe UI",Tahoma,system-ui,sans-serif;
     background:
-      radial-gradient(900px 520px at 78% -10%, rgba(49,169,255,.18), transparent 62%),
-      radial-gradient(760px 520px at 10% 15%, rgba(139,124,255,.13), transparent 64%),
-      linear-gradient(180deg,#050913 0%,#081020 52%,#050913 100%);
-    color:var(--ink); min-height:100vh;
-    -webkit-font-smoothing:antialiased;
-    letter-spacing:0;
+      radial-gradient(1100px 620px at 80% -12%, rgba(124,108,255,.22), transparent 60%),
+      radial-gradient(760px 540px at 6% 8%, rgba(84,209,255,.12), transparent 62%),
+      var(--bg);
+    background-attachment:fixed; color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased;
   }
   a{color:inherit; text-decoration:none}
-  button,input,select{font:inherit; letter-spacing:0}
-  ::selection{background:rgba(49,169,255,.36)}
-  .app{max-width:1420px; margin:0 auto; padding:18px 18px 76px}
+  button,input,select{font:inherit}
+  ::selection{background:rgba(124,108,255,.4)}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:rgba(140,150,255,.16); border-radius:8px}
 
-  /* ---------- app bar ---------- */
-  .appbar{
-    position:sticky; top:0; z-index:40; padding:10px 0 14px;
-    background:linear-gradient(180deg,rgba(5,9,19,.96) 0%,rgba(5,9,19,.84) 78%,transparent 100%);
-    backdrop-filter:blur(14px);
+  /* ---------- shell ---------- */
+  .shell{display:flex; min-height:100vh; max-width:1560px; margin:0 auto}
+  .sidebar{
+    width:250px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow:auto;
+    background:linear-gradient(180deg,rgba(13,18,38,.9),rgba(8,12,26,.96));
+    border-inline-start:1px solid var(--line); border-inline-end:1px solid var(--line);
+    padding:20px 14px; display:flex; flex-direction:column; gap:6px;
   }
-  .topline{display:grid; grid-template-columns:auto minmax(260px,1fr); align-items:center; gap:14px}
-  .brand{display:flex; align-items:center; gap:11px}
-  .logo{
-    width:42px; height:42px; border-radius:8px; flex-shrink:0;
-    background:linear-gradient(145deg,rgba(49,169,255,.2),rgba(139,124,255,.16)); border:1px solid rgba(105,230,255,.38);
-    display:flex; align-items:center; justify-content:center; color:var(--accent2);
-    box-shadow:0 0 28px rgba(49,169,255,.16), inset 0 0 0 1px rgba(255,255,255,.04);
-  }
-  .logo span{font-size:19px; transform:translateY(-1px)}
-  .brand h1{margin:0; font-size:19px; font-weight:900; letter-spacing:0}
-  .brand p{margin:1px 0 0; color:var(--muted); font-size:12px; font-weight:600}
+  .side-brand{display:flex; align-items:center; gap:11px; padding:6px 8px 16px}
+  .logo{width:44px; height:44px; border-radius:12px; flex-shrink:0; display:flex; align-items:center;
+    justify-content:center; font-size:20px; color:#fff; background:var(--grad);
+    box-shadow:0 10px 26px -8px rgba(124,108,255,.7)}
+  .side-brand h1{margin:0; font-size:17px; font-weight:900; line-height:1.05; letter-spacing:.3px}
+  .side-brand small{color:var(--muted); font-size:10.5px; font-weight:700; letter-spacing:2px}
+  .side-nav{display:flex; flex-direction:column; gap:3px; margin-top:4px}
+  .nav-item{display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:11px;
+    color:var(--muted); font-weight:700; font-size:14px; cursor:pointer; border:1px solid transparent;
+    transition:.15s; position:relative}
+  .nav-item .ic{width:22px; text-align:center; font-size:15px; opacity:.9}
+  .nav-item .badge{margin-inline-start:auto; font-size:11px; font-weight:800; color:var(--muted);
+    background:rgba(255,255,255,.05); padding:1px 8px; border-radius:20px; min-width:22px; text-align:center}
+  .nav-item:hover{color:#fff; background:rgba(255,255,255,.04)}
+  .nav-item.active{color:#fff; background:var(--accentSoft); border-color:rgba(124,108,255,.4)}
+  .nav-item.active::before{content:""; position:absolute; inset-inline-start:0; inset-block:9px; width:3px;
+    border-radius:8px; background:var(--grad)}
+  .nav-item.active .badge{background:rgba(124,108,255,.28); color:#dfe0ff}
+  .side-profile{margin-top:auto; display:flex; align-items:center; gap:11px; padding:12px;
+    border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.02); cursor:pointer; transition:.15s}
+  .side-profile:hover{border-color:var(--line2)}
+  .avatar{width:40px; height:40px; border-radius:11px; flex-shrink:0; display:flex; align-items:center;
+    justify-content:center; font-weight:900; font-size:15px; color:#fff; background:var(--grad)}
+  .side-profile .pn{font-weight:800; font-size:13.5px}
+  .side-profile .pl{color:var(--accent2); font-size:11.5px; font-weight:800}
+  .xpbar{height:5px; border-radius:6px; background:rgba(255,255,255,.08); overflow:hidden; margin-top:5px}
+  .xpbar i{display:block; height:100%; background:var(--grad)}
 
-  .searchbox{position:relative; flex:1; min-width:0}
+  .main{flex:1; min-width:0; padding:18px 22px 70px}
+  .topbar{position:sticky; top:0; z-index:40; padding:8px 0 14px; margin-bottom:6px;
+    background:linear-gradient(180deg,var(--bg) 72%,transparent); backdrop-filter:blur(10px)}
+  .searchbox{position:relative}
   .sfield{position:relative}
-  .sfield input{
-    width:100%; background:rgba(9,18,34,.9); color:#fff; border:1px solid var(--line2);
-    border-radius:8px; padding:15px 52px 15px 18px; font-size:16px; font-weight:700;
-    transition:border-color .18s, background .18s, box-shadow .18s;
-  }
+  .sfield input{width:100%; background:rgba(11,17,34,.92); color:#fff; border:1px solid var(--line2);
+    border-radius:13px; padding:15px 52px 15px 18px; font-size:16px; font-weight:700; transition:.18s}
   .sfield input::placeholder{color:var(--dim); font-weight:400}
-  .sfield input:focus{outline:none; border-color:rgba(105,230,255,.8); background:#0d1a31; box-shadow:0 0 0 4px rgba(49,169,255,.14)}
-  .sicon{position:absolute; top:50%; transform:translateY(-50%); inset-inline-end:18px;
-    font-size:17px; color:var(--muted); pointer-events:none}
+  .sfield input:focus{outline:none; border-color:rgba(124,108,255,.75); background:#0d1430;
+    box-shadow:0 0 0 4px rgba(124,108,255,.14)}
+  .sicon{position:absolute; top:50%; transform:translateY(-50%); inset-inline-end:18px; font-size:17px;
+    color:var(--muted); pointer-events:none}
   .searchbox.loading .sicon{animation:spin .8s linear infinite; color:var(--accent)}
   @keyframes spin{to{transform:translateY(-50%) rotate(360deg)}}
-  .results{position:absolute; top:calc(100% + 8px); inset-inline:0; z-index:50;
-    background:#0b1426; border:1px solid var(--line2); border-radius:8px;
-    overflow:hidden auto; max-height:62vh; display:none;
+  .results{position:absolute; top:calc(100% + 8px); inset-inline:0; z-index:50; background:#0b1226;
+    border:1px solid var(--line2); border-radius:13px; overflow:hidden auto; max-height:60vh; display:none;
     box-shadow:var(--shadow)}
   .results.show{display:block}
-  .results::-webkit-scrollbar{width:9px}
-  .results::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12); border-radius:8px}
-  .rrow{display:flex; align-items:center; gap:13px; padding:10px 13px;
-    border-bottom:1px solid var(--line); cursor:pointer; transition:background .12s}
+  .rrow{display:flex; align-items:center; gap:13px; padding:10px 13px; border-bottom:1px solid var(--line);
+    cursor:pointer; transition:.12s}
   .rrow:last-child{border-bottom:0}
-  .rrow:hover{background:rgba(49,169,255,.1)}
-  .rthumb{width:76px; height:43px; border-radius:6px; object-fit:cover; background:#0a0d14; flex-shrink:0}
+  .rrow:hover{background:rgba(124,108,255,.1)}
+  .rthumb{width:76px; height:43px; border-radius:8px; object-fit:cover; background:#0a0d14; flex-shrink:0}
   .rthumb.noimg{display:flex; align-items:center; justify-content:center; color:#2e3548; font-size:17px}
   .rinfo{flex:1; min-width:0}
-  .rname{color:#fff; font-weight:700; font-size:14px; direction:ltr; text-align:start;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .rmeta{color:var(--muted); font-size:12px; margin-top:2px; font-weight:500}
-  .radd{flex-shrink:0; background:var(--accent); color:#04101f; border:0; border-radius:8px;
-    padding:9px 14px; font-size:13px; font-weight:900; cursor:pointer; transition:.15s}
-  .radd:hover{background:var(--accent2)}
-  .radd.added{background:rgba(66,196,136,.15); color:var(--done); cursor:default}
+  .rname{color:#fff; font-weight:800; font-size:14px; direction:ltr; text-align:start; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis}
+  .rmeta{color:var(--muted); font-size:12px; margin-top:2px; font-weight:600}
+  .radd{flex-shrink:0; background:var(--accent); color:#fff; border:0; border-radius:9px; padding:9px 14px;
+    font-size:13px; font-weight:800; cursor:pointer; transition:.15s}
+  .radd:hover{filter:brightness(1.1)}
+  .radd.added{background:rgba(85,214,139,.15); color:var(--done); cursor:default}
   .rnote{padding:16px; color:var(--muted); font-size:13.5px; text-align:center}
 
-  /* ---------- intro panel ---------- */
-  .hero-panel{
-    min-height:260px; display:grid; grid-template-columns:minmax(280px,.82fr) minmax(420px,1.18fr);
-    gap:14px; align-items:stretch; margin:8px 0 16px;
-  }
-  body.has-library .hero-panel{display:none}
-  .hero-copy{
-    position:relative; overflow:hidden; border:1px solid var(--line);
-    background:
-      linear-gradient(135deg,rgba(12,24,48,.96),rgba(7,13,26,.98)),
-      radial-gradient(400px 220px at 15% 20%, rgba(49,169,255,.18), transparent 65%);
-    padding:26px; border-radius:8px; min-height:260px;
-    display:flex; flex-direction:column; justify-content:space-between;
-  }
-  .hero-copy::before{
-    content:""; position:absolute; inset-inline-start:0; inset-block:0; width:4px;
-    background:linear-gradient(180deg,var(--accent2),var(--accent),var(--accent3));
-  }
-  .hero-copy .eyebrow{margin:0 0 9px; color:var(--accent2); font-size:13px; line-height:1.4; font-weight:900}
-  .hero-copy h2{margin:0; max-width:520px; font-size:35px; line-height:1.12; font-weight:900}
-  .hero-copy p:not(.eyebrow){margin:12px 0 0; max-width:560px; color:var(--muted); font-size:15px; line-height:1.8; font-weight:600}
-  .hero-stats{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
-  .hero-stats span{
-    display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 11px;
-    border:1px solid var(--line); color:#dcd7ca; background:rgba(255,255,255,.035);
-    border-radius:8px; font-size:12px; font-weight:800;
-  }
-  .hero-art{
-    position:relative; min-height:310px; border-radius:8px; overflow:hidden; border:1px solid var(--line);
-    background-image:
-      linear-gradient(90deg,rgba(5,9,19,.2),rgba(5,9,19,.38)),
-      linear-gradient(135deg,rgba(49,169,255,.26),rgba(139,124,255,.12)),
-      url("assets/game-library-hero.png");
-    background-size:cover; background-position:center; box-shadow:var(--shadow);
-  }
-  .hero-art::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg,transparent 48%,rgba(5,9,19,.52));
-    pointer-events:none;
-  }
-  .art-chip{
-    position:absolute; inset-inline-end:16px; inset-block-end:16px; z-index:1;
-    display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
-  }
-  .art-chip span{
-    padding:8px 10px; border:1px solid rgba(255,255,255,.18); border-radius:8px;
-    background:rgba(9,10,10,.62); color:#fff; backdrop-filter:blur(10px);
-    font-size:12px; font-weight:800;
-  }
+  /* ---------- view header ---------- */
+  .vhead{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:18px}
+  .vhead h2{margin:0; font-size:22px; font-weight:900}
+  .vhead .sub{color:var(--dim); font-size:13px; font-weight:700}
+  .spacer{flex:1}
 
-  /* ---------- bento dashboard ---------- */
-  .bento{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:118px;
-    gap:12px; grid-auto-flow:dense; margin-bottom:26px}
-  .tile{background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
-    padding:16px; position:relative; overflow:hidden; transition:border-color .18s, transform .18s}
-  .tile.tap{cursor:pointer}
-  .tile.tap:hover{border-color:rgba(105,230,255,.42); transform:translateY(-2px)}
+  /* ---------- panels / cards generic ---------- */
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--r); position:relative; overflow:hidden}
+  .glass{background:linear-gradient(160deg,rgba(20,28,54,.8),rgba(11,16,33,.92))}
+  .plabel{font-size:11px; font-weight:900; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase}
 
-  /* play-next hero */
-  .tile.play{grid-column:span 2; grid-row:span 2; padding:0; display:flex;
-    align-items:flex-end; border-color:var(--line2)}
-  .play .pbg{position:absolute; inset:0; background-size:cover; background-position:center}
-  .play .pbg::after{content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg,rgba(5,9,19,.12) 18%,rgba(5,9,19,.95))}
-  .play .pcontent{position:relative; padding:20px; width:100%}
-  .play .plabel{display:inline-flex; align-items:center; gap:6px; font-size:11.5px;
-    font-weight:900; color:#04101f; background:var(--accent2); padding:5px 11px;
-    border-radius:8px; margin-bottom:11px}
-  .play .ptitle{font-size:24px; font-weight:800; color:#fff; direction:ltr; text-align:start;
-    line-height:1.2; margin-bottom:9px; text-shadow:0 2px 14px rgba(0,0,0,.6)}
-  .play .pmeta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:15px}
-  .play .pm{font-size:12px; font-weight:600; color:#dfe3ee; background:rgba(255,255,255,.1);
-    padding:4px 10px; border-radius:8px; backdrop-filter:blur(4px)}
-  .play .pm.star{color:#1c1503; background:var(--gold)}
-  .play .pbtns{display:flex; gap:9px}
-  .play .pbtn{border:0; border-radius:8px; padding:12px 18px; font-size:14px; font-weight:900;
-    cursor:pointer; transition:.15s; display:inline-flex; align-items:center; gap:7px}
-  .play .pbtn.go{background:var(--accent2); color:#04101f}
-  .play .pbtn.go:hover{transform:translateY(-1px)}
-  .play .pbtn.alt{background:rgba(255,255,255,.14); color:#fff; backdrop-filter:blur(4px)}
-  .play .pbtn.alt:hover{background:rgba(255,255,255,.22)}
-  .play.empty{align-items:center; justify-content:center; text-align:center; padding:22px}
-  .play.empty .pe{color:var(--muted)}
-  .play.empty .pe b{display:block; color:#fff; font-size:17px; font-weight:800; margin-bottom:6px}
+  /* dashboard grid */
+  .dash{display:grid; grid-template-columns:1.35fr 1fr; gap:16px; margin-bottom:16px}
+  .continue{position:relative; min-height:340px; border-radius:var(--r); overflow:hidden; border:1px solid var(--line2);
+    display:flex; align-items:flex-end}
+  .continue .cbg{position:absolute; inset:0; background-size:cover; background-position:center; transition:transform .5s}
+  .continue:hover .cbg{transform:scale(1.04)}
+  .continue .cbg::after{content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg,rgba(7,10,22,.15) 20%,rgba(7,10,22,.96))}
+  .continue .cwrap{position:relative; padding:24px; width:100%}
+  .continue .ctag{display:inline-flex; align-items:center; gap:7px; font-size:11px; font-weight:900;
+    letter-spacing:1px; color:#04101f; background:var(--accent2); padding:5px 12px; border-radius:20px; margin-bottom:12px}
+  .continue h3{margin:0 0 6px; font-size:28px; font-weight:900; color:#fff; direction:ltr; text-align:start;
+    text-shadow:0 2px 18px rgba(0,0,0,.6)}
+  .continue .csub{color:#c7cdf0; font-size:13.5px; font-weight:600; margin-bottom:14px}
+  .cmeta{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px}
+  .cmeta span{font-size:12px; font-weight:700; color:#e7eaff; background:rgba(255,255,255,.12);
+    padding:5px 11px; border-radius:9px; backdrop-filter:blur(4px)}
+  .cmeta span.star{color:#2a1e00; background:var(--gold)}
+  .cprog{display:flex; align-items:center; gap:12px; margin-bottom:16px}
+  .cprog .bar{flex:1; height:8px; border-radius:8px; background:rgba(255,255,255,.16); overflow:hidden}
+  .cprog .bar i{display:block; height:100%; background:var(--grad); border-radius:8px}
+  .cprog b{font-size:13px; font-weight:900; color:#fff; min-width:38px; text-align:end}
+  .cbtns{display:flex; gap:10px; flex-wrap:wrap}
+  .cbtn{border:0; border-radius:11px; padding:12px 20px; font-size:14px; font-weight:900; cursor:pointer; transition:.15s;
+    display:inline-flex; align-items:center; gap:7px}
+  .cbtn.go{background:#fff; color:#0a0f20} .cbtn.go:hover{transform:translateY(-1px)}
+  .cbtn.alt{background:rgba(255,255,255,.16); color:#fff; backdrop-filter:blur(4px)} .cbtn.alt:hover{background:rgba(255,255,255,.26)}
+  .continue.empty{align-items:center; justify-content:center; text-align:center; background:var(--panel)}
+  .continue.empty .ce b{display:block; color:#fff; font-size:19px; font-weight:900; margin-bottom:6px}
+  .continue.empty .ce{color:var(--muted); padding:24px}
 
-  /* stat tiles */
-  .stat{display:flex; flex-direction:column; justify-content:space-between}
-  .stat .snum{font-size:30px; font-weight:800; line-height:1; letter-spacing:0}
-  .stat .slabel{font-size:12.5px; color:var(--muted); font-weight:600}
-  .stat .stop{display:flex; align-items:center; justify-content:space-between}
-  .stat .sico{width:30px; height:30px; border-radius:8px; display:flex; align-items:center;
-    justify-content:center; font-size:15px; background:var(--accentSoft); color:var(--accent)}
-  .stat.c-play .sico{background:rgba(255,159,69,.14); color:var(--playing)}
-  .stat.c-done .sico{background:rgba(67,201,138,.14); color:var(--done)}
-  .stat.c-gold .sico{background:rgba(255,194,75,.14); color:var(--gold)}
+  /* your games */
+  .yourgames{display:flex; flex-direction:column}
+  .yg-head{display:flex; align-items:center; margin-bottom:12px}
+  .yg-head .plabel{flex:1}
+  .yg-head a{color:var(--accent2); font-size:12px; font-weight:800; cursor:pointer}
+  .yg-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:11px}
+  .mini{border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--panel2);
+    cursor:pointer; transition:.18s}
+  .mini:hover{transform:translateY(-3px); border-color:var(--line2)}
+  .mini .mthumb{aspect-ratio:16/10; background:#0a0d14; position:relative; overflow:hidden}
+  .mini .mthumb img{width:100%; height:100%; object-fit:cover}
+  .mini .mthumb .mrate{position:absolute; top:7px; inset-inline-end:7px; background:rgba(6,8,16,.82);
+    color:var(--gold); font-size:11px; font-weight:900; padding:3px 7px; border-radius:7px}
+  .mini .minfo{padding:8px 10px 10px}
+  .mini .mname{font-size:12.5px; font-weight:800; color:#fff; direction:ltr; text-align:start; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis}
+  .mini .mmeta{font-size:11px; color:var(--muted); font-weight:700; margin-top:3px; display:flex; gap:8px}
 
-  /* ring tile */
-  .ring{display:flex; align-items:center; gap:14px}
-  .ring .dial{width:74px; height:74px; border-radius:50%; flex-shrink:0; position:relative;
-    display:flex; align-items:center; justify-content:center}
-  .ring .dial::before{content:""; position:absolute; inset:9px; border-radius:50%; background:var(--panel)}
-  .ring .dval{position:relative; font-size:18px; font-weight:800}
-  .ring .rlabel{font-size:13px; color:var(--muted); font-weight:600; line-height:1.5}
-  .ring .rlabel b{display:block; color:var(--ink); font-size:14px; font-weight:700}
+  /* stat row */
+  .statrow{display:grid; grid-template-columns:1.1fr repeat(4,1fr); gap:16px; margin-bottom:16px}
+  .donutcard{display:flex; align-items:center; gap:16px; padding:18px}
+  .donut{width:104px; height:104px; border-radius:50%; flex-shrink:0; position:relative; display:flex;
+    align-items:center; justify-content:center}
+  .donut::before{content:""; position:absolute; inset:13px; border-radius:50%; background:var(--panel)}
+  .donut .dv{position:relative; text-align:center}
+  .donut .dv b{display:block; font-size:23px; font-weight:900; line-height:1}
+  .donut .dv span{font-size:10px; color:var(--muted); font-weight:700}
+  .legend{display:flex; flex-direction:column; gap:8px; font-size:12.5px; font-weight:700}
+  .legend div{display:flex; align-items:center; gap:8px; color:var(--muted)}
+  .legend i{width:10px; height:10px; border-radius:3px}
+  .legend b{color:var(--ink); margin-inline-start:auto}
+  .metric{padding:16px 18px; display:flex; flex-direction:column; gap:8px}
+  .metric .mtop{display:flex; align-items:center; justify-content:space-between}
+  .metric .plabel{font-size:11px}
+  .metric .ico{width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:16px; background:var(--accentSoft); color:var(--accent)}
+  .metric.c-time .ico{background:rgba(84,209,255,.14); color:var(--accent2)}
+  .metric.c-done .ico{background:rgba(85,214,139,.14); color:var(--done)}
+  .metric.c-wish .ico{background:rgba(255,143,199,.14); color:var(--wish)}
+  .metric .big{font-size:32px; font-weight:900; line-height:1}
+  .metric .delta{font-size:11.5px; font-weight:800}
+  .metric .delta.up{color:var(--done)} .metric .delta.mut{color:var(--dim)}
 
-  /* plan CTA tile (wide) */
-  .tile.plant{grid-column:span 2; display:flex; align-items:center; gap:14px;
-    background:linear-gradient(120deg,rgba(16,32,61,.95),rgba(8,15,31,.98))}
-  .plant .pico{width:46px; height:46px; border-radius:8px; background:var(--accentSoft);
-    color:var(--accent); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0}
-  .plant .ptxt b{display:block; font-size:16px; font-weight:800}
-  .plant .ptxt span{font-size:12.5px; color:var(--muted)}
-  .plant .parrow{margin-inline-start:auto; color:var(--muted); font-size:20px}
+  /* bottom row: recently + achievement */
+  .botrow{display:grid; grid-template-columns:1.3fr 1fr; gap:16px}
+  .recent{padding:16px 18px}
+  .recent .plabel{margin-bottom:12px; display:block}
+  .recent-list{display:flex; gap:10px; overflow:auto; padding-bottom:2px}
+  .rc{width:78px; flex-shrink:0; cursor:pointer}
+  .rc .rcimg{width:78px; height:78px; border-radius:12px; object-fit:cover; background:#0a0d14; border:1px solid var(--line)}
+  .rc .rcname{font-size:10.5px; color:var(--muted); font-weight:700; margin-top:5px; text-align:center;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .ach-banner{padding:18px; display:flex; align-items:center; gap:14px;
+    background:linear-gradient(120deg,rgba(124,108,255,.16),rgba(84,209,255,.06))}
+  .ach-banner .aic{width:52px; height:52px; border-radius:14px; flex-shrink:0; display:flex; align-items:center;
+    justify-content:center; font-size:24px; background:var(--grad); box-shadow:0 10px 26px -8px rgba(124,108,255,.7)}
+  .ach-banner .plabel{color:var(--accent2)}
+  .ach-banner b{display:block; font-size:16px; font-weight:900; margin:3px 0}
+  .ach-banner span{font-size:12.5px; color:var(--muted); font-weight:700}
+  .ach-banner .xp{margin-inline-start:auto; font-weight:900; color:var(--gold); font-size:14px; white-space:nowrap}
 
-  /* ---------- library ---------- */
-  .libhead{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px}
-  .libhead h2{margin:0; font-size:17px; font-weight:800}
-  .libhead .count{color:var(--dim); font-size:13px; font-weight:600}
-  .controls{display:flex; gap:9px; flex-wrap:wrap; align-items:center; margin-inline-start:auto}
-  .controls input[type=text], .controls select{background:var(--panel); color:var(--ink);
-    border:1px solid var(--line); border-radius:8px; padding:9px 12px; font-size:13.5px;
-    font-family:inherit; font-weight:500; transition:border-color .15s}
+  /* ---------- library controls + grid ---------- */
+  .controls{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px}
+  .controls input[type=text], .controls select{background:var(--panel); color:var(--ink); border:1px solid var(--line);
+    border-radius:10px; padding:9px 12px; font-size:13.5px; font-weight:600; transition:.15s}
   .controls input[type=text]:focus, .controls select:focus{outline:none; border-color:var(--accent)}
   .controls input[type=text]{width:150px}
   .controls select{cursor:pointer}
-  .seg{display:flex; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:3px; gap:2px}
-  .seg button{background:transparent; color:var(--muted); border:0; padding:7px 13px; cursor:pointer;
-    font-size:13px; font-family:inherit; font-weight:800; border-radius:6px; transition:.15s}
-  .seg button.active{background:var(--accent); color:#04101f}
-  .seg button:hover:not(.active){color:#fff; background:rgba(255,255,255,.05)}
-  .ibtn{background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:8px;
-    width:38px; height:38px; padding:0; cursor:pointer; font-size:15px; font-weight:700; transition:.15s}
+  .ibtn{background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:10px; width:38px;
+    height:38px; cursor:pointer; font-size:15px; transition:.15s}
   .ibtn:hover{border-color:var(--line2); background:var(--panel2)}
-  .pickbtn{
-    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#04101f;
-    border:0; border-radius:8px; height:38px; padding:0 14px; cursor:pointer;
-    font-size:13px; font-weight:900; box-shadow:0 12px 30px rgba(49,169,255,.18);
-  }
+  .pickbtn{background:var(--grad); color:#fff; border:0; border-radius:10px; height:38px; padding:0 15px; cursor:pointer;
+    font-size:13px; font-weight:900; box-shadow:0 12px 26px -10px rgba(124,108,255,.7)}
   .pickbtn:hover{filter:brightness(1.08)}
 
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
-    grid-auto-flow:dense; gap:12px}
-  .genre-groups{display:flex; flex-direction:column; gap:22px}
-  .genre-section{min-width:0}
-  .genre-title{display:flex; align-items:center; gap:10px; margin:0 0 10px; font-size:15px; font-weight:900; color:#fff}
-  .genre-title::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--accent2); box-shadow:0 0 16px rgba(105,230,255,.55)}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(216px,1fr)); grid-auto-flow:dense; gap:14px}
+  .genre-groups{display:flex; flex-direction:column; gap:24px}
+  .genre-title{display:flex; align-items:center; gap:10px; margin:0 0 12px; font-size:15px; font-weight:900; color:#fff}
+  .genre-title::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--accent2);
+    box-shadow:0 0 16px rgba(84,209,255,.6)}
   .genre-title span{color:var(--muted); font-size:12px; font-weight:800}
+
   .card{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:var(--r);
-    overflow:hidden; display:flex; flex-direction:column;
-    transition:transform .2s cubic-bezier(.2,.7,.3,1), border-color .2s;
+    overflow:hidden; display:flex; flex-direction:column; transition:transform .2s cubic-bezier(.2,.7,.3,1), border-color .2s;
     animation:pop .38s cubic-bezier(.2,.7,.3,1) backwards}
   @keyframes pop{from{opacity:0; transform:translateY(12px)}to{opacity:1}}
-  .card:hover{transform:translateY(-4px); border-color:rgba(105,230,255,.42)}
-  .card.recommended{border-color:rgba(105,230,255,.9); box-shadow:0 0 0 1px rgba(105,230,255,.3),0 20px 50px rgba(49,169,255,.22)}
+  .card:hover{transform:translateY(-4px); border-color:rgba(124,108,255,.5)}
+  .card.recommended{border-color:rgba(84,209,255,.9); box-shadow:0 0 0 1px rgba(84,209,255,.3),0 20px 50px -18px rgba(84,209,255,.6)}
   .card.span2{grid-column:span 2}
   .card::before{content:""; position:absolute; inset-block-start:0; inset-inline:0; height:3px; z-index:3; opacity:0}
   .card.s-playing::before{opacity:1; background:var(--playing)}
   .card.s-done::before{opacity:1; background:var(--done)}
-  .card.s-done{opacity:.72}
+  .card.s-wishlist::before{opacity:1; background:var(--wish)}
+  .card.s-done{opacity:.74}
   .thumb{position:relative; aspect-ratio:16/9; background:#0a0d14; overflow:hidden}
   .thumb img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease}
   .card:hover .thumb img{transform:scale(1.06)}
   .thumb .noimg{display:flex; align-items:center; justify-content:center; height:100%; color:#2a3146; font-size:42px}
-  .thumb::after{content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg,transparent 55%,rgba(5,9,19,.78)); pointer-events:none}
-  .badge-status{position:absolute; top:9px; inset-inline-start:9px; padding:4px 10px; border-radius:8px;
-    font-size:11px; font-weight:800; z-index:2; display:none}
-  .card.s-playing .badge-status{display:block; background:var(--playing); color:#1a1305}
+  .thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 55%,rgba(7,10,22,.8));
+    pointer-events:none}
+  .bookmark{position:absolute; top:8px; inset-inline-start:8px; z-index:3; width:30px; height:30px; border-radius:9px;
+    border:1px solid var(--line2); background:rgba(6,8,16,.6); color:#cdd3f0; cursor:pointer; font-size:13px;
+    backdrop-filter:blur(6px); transition:.15s}
+  .bookmark:hover{color:#fff; border-color:var(--wish)}
+  .card.s-wishlist .bookmark{background:var(--wish); color:#3a0f27; border-color:transparent}
+  .badge-status{position:absolute; top:9px; inset-inline-start:44px; padding:4px 10px; border-radius:8px; font-size:11px;
+    font-weight:900; z-index:2; display:none}
+  .card.s-playing .badge-status{display:block; background:var(--playing); color:#04121a}
   .card.s-done .badge-status{display:block; background:var(--done); color:#06251a}
-  .rating-chip{position:absolute; top:9px; inset-inline-end:9px; z-index:2; background:rgba(8,10,16,.78);
-    border:1px solid rgba(255,194,75,.3); color:var(--gold); font-weight:800; font-size:12px;
-    padding:4px 9px; border-radius:8px}
+  .rating-chip{position:absolute; top:9px; inset-inline-end:9px; z-index:2; background:rgba(6,8,16,.82);
+    border:1px solid rgba(255,209,102,.3); color:var(--gold); font-weight:900; font-size:12px; padding:4px 9px; border-radius:8px}
+  .cardprog{position:absolute; inset-inline:0; inset-block-end:0; height:4px; background:rgba(255,255,255,.14); z-index:2}
+  .cardprog i{display:block; height:100%; background:var(--grad)}
   .body{padding:12px 13px 13px; display:flex; flex-direction:column; gap:9px; flex:1}
-  .title{font-size:15px; font-weight:700; line-height:1.3; direction:ltr; text-align:start}
+  .title{font-size:15px; font-weight:800; line-height:1.3; direction:ltr; text-align:start}
   .title a{color:#fff}.title a:hover{color:var(--accent2)}
   .meta{display:flex; flex-wrap:wrap; gap:6px}
-  .tag{background:rgba(255,255,255,.05); border:1px solid var(--line); color:#aeb6c8;
-    font-size:11px; padding:3px 9px; border-radius:6px; font-weight:600}
-  .tag.mc{color:#9fe6c0; background:rgba(67,201,138,.1); border-color:rgba(67,201,138,.25)}
+  .tag{background:rgba(255,255,255,.05); border:1px solid var(--line); color:#b3bad6; font-size:11px; padding:3px 9px;
+    border-radius:7px; font-weight:700}
+  .tag.mc{color:#9fe6c0; background:rgba(85,214,139,.1); border-color:rgba(85,214,139,.25)}
   .timewrap{margin-top:auto; display:flex; flex-direction:column}
   .timerow{display:flex; gap:8px; align-items:stretch}
-  .hcell{flex:1; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:8px;
-    padding:8px 6px; text-align:center}
-  .hcell b{display:block; color:#fff; font-size:16px; font-weight:800}
-  .hcell span{font-size:10px; color:var(--muted); font-weight:500}
-  .hcell.custom{border-color:rgba(105,230,255,.45); background:var(--accentSoft)}
-  .tedit{background:rgba(255,255,255,.03); color:var(--muted); border:1px dashed var(--line2);
-    border-radius:8px; padding:0 13px; cursor:pointer; font-size:14px; font-family:inherit; transition:.15s}
+  .hcell{flex:1; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:9px; padding:8px 6px; text-align:center}
+  .hcell b{display:block; color:#fff; font-size:16px; font-weight:900}
+  .hcell span{font-size:10px; color:var(--muted); font-weight:600}
+  .hcell.custom{border-color:rgba(84,209,255,.45); background:rgba(84,209,255,.08)}
+  .tedit{background:rgba(255,255,255,.03); color:var(--muted); border:1px dashed var(--line2); border-radius:9px;
+    padding:0 13px; cursor:pointer; font-size:14px; transition:.15s}
   .tedit:hover{color:#fff; border-color:var(--accent); background:var(--accentSoft)}
-  .tedit.wide{width:100%; padding:7px 0; margin-top:8px; font-size:12px; font-weight:600}
-  .hedit{display:flex; gap:6px; margin-top:auto}
+  .tedit.wide{width:100%; padding:7px 0; margin-top:8px; font-size:12px; font-weight:700}
+  .hedit{display:flex; gap:6px}
   .hedit input{flex:1; min-width:0; background:rgba(255,255,255,.04); color:#fff; border:1px solid var(--accent);
-    border-radius:8px; padding:9px; text-align:center; font-size:14px; font-family:inherit}
+    border-radius:9px; padding:9px; text-align:center; font-size:14px}
   .hedit input:focus{outline:none}
-  .hedit button{border:0; border-radius:8px; padding:9px 13px; cursor:pointer; font-family:inherit; font-size:14px; font-weight:800}
-  .hsave{background:var(--done); color:#06251a}
-  .hcancel{background:rgba(255,255,255,.08); color:#fff}
+  .hedit button{border:0; border-radius:9px; padding:9px 13px; cursor:pointer; font-size:14px; font-weight:900}
+  .hsave{background:var(--done); color:#06251a} .hcancel{background:rgba(255,255,255,.08); color:#fff}
+  .prow-edit{display:flex; align-items:center; gap:8px; margin-top:2px}
+  .prow-edit span{font-size:11px; color:var(--muted); font-weight:800; min-width:34px; text-align:end}
+  input[type=range].progrange{flex:1; -webkit-appearance:none; appearance:none; height:5px; border-radius:6px;
+    background:rgba(255,255,255,.14); cursor:pointer}
+  input[type=range].progrange::-webkit-slider-thumb{-webkit-appearance:none; width:15px; height:15px; border-radius:50%;
+    background:var(--accent2); border:2px solid #0a0f20}
   .actions{display:flex; gap:7px; margin-top:2px}
   .actions button{flex:1; background:rgba(255,255,255,.04); color:var(--ink); border:1px solid var(--line);
-    border-radius:8px; padding:8px 4px; cursor:pointer; font-size:12.5px; font-family:inherit; font-weight:700; transition:.15s}
+    border-radius:9px; padding:8px 4px; cursor:pointer; font-size:12.5px; font-weight:800; transition:.15s}
   .actions button:hover{background:rgba(255,255,255,.08); color:#fff}
-  .actions button.act-play.on{background:var(--playing); color:#1a1305; border-color:transparent}
+  .actions button.act-play.on{background:var(--playing); color:#04121a; border-color:transparent}
   .actions button.act-done.on{background:var(--done); color:#06251a; border-color:transparent}
   .actions button.act-del{flex:0 0 auto; width:42px}
-  .actions button.act-del:hover{background:rgba(255,107,107,.14); color:#ffb4b4; border-color:rgba(255,107,107,.4)}
+  .actions button.act-del:hover{background:rgba(255,107,122,.14); color:#ffb4bc; border-color:rgba(255,107,122,.4)}
 
-  .empty{
-    text-align:center; color:var(--muted); padding:64px 20px; border:1px solid var(--line);
-    border-radius:8px; background:
-      linear-gradient(180deg,rgba(5,9,19,.5),rgba(5,9,19,.9)),
-      url("assets/game-library-hero.png") center/cover;
-  }
-  .empty .big{font-size:48px; margin-bottom:12px}
-  .empty .t{font-size:20px; color:#fff; font-weight:900; margin-bottom:8px}
-  .empty .s{font-size:14.5px; max-width:390px; margin:0 auto; line-height:1.7}
+  .empty{text-align:center; color:var(--muted); padding:64px 20px; border:1px solid var(--line); border-radius:var(--r);
+    background:linear-gradient(180deg,rgba(7,10,22,.5),rgba(7,10,22,.92)), url("assets/game-library-hero.png") center/cover}
+  .empty .big{font-size:48px; margin-bottom:12px} .empty .t{font-size:20px; color:#fff; font-weight:900; margin-bottom:8px}
+  .empty .s{font-size:14.5px; max-width:400px; margin:0 auto; line-height:1.7}
 
-  /* ---------- plan modal ---------- */
-  .overlay{position:fixed; inset:0; background:rgba(5,6,10,.78); backdrop-filter:blur(5px);
-    display:none; align-items:flex-start; justify-content:center; padding:34px 16px; overflow:auto; z-index:70}
+  /* ---------- stats page ---------- */
+  .ach-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px}
+  .ach{display:flex; align-items:center; gap:12px; padding:14px; border:1px solid var(--line); border-radius:12px;
+    background:var(--panel)}
+  .ach.locked{opacity:.45}
+  .ach .ai{width:44px; height:44px; border-radius:11px; flex-shrink:0; display:flex; align-items:center;
+    justify-content:center; font-size:21px; background:var(--accentSoft)}
+  .ach.unlocked .ai{background:var(--grad)}
+  .ach b{display:block; font-size:14px; font-weight:900}
+  .ach span{font-size:11.5px; color:var(--muted); font-weight:700}
+  .ach .axp{margin-inline-start:auto; font-size:12px; font-weight:900; color:var(--gold)}
+  .breakdown{display:flex; flex-direction:column; gap:10px}
+  .brow{display:flex; align-items:center; gap:10px}
+  .brow .bl{width:90px; font-size:13px; font-weight:800; color:var(--muted)}
+  .brow .bt{flex:1; height:10px; border-radius:8px; background:rgba(255,255,255,.06); overflow:hidden}
+  .brow .bt i{display:block; height:100%; border-radius:8px}
+  .brow .bn{width:44px; text-align:end; font-weight:900; font-size:13px}
+
+  /* ---------- settings ---------- */
+  .set-card{padding:18px; margin-bottom:14px}
+  .set-card h3{margin:0 0 4px; font-size:16px; font-weight:900}
+  .set-card p{margin:0 0 14px; color:var(--muted); font-size:13px; font-weight:600}
+  .set-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .tinput{background:rgba(11,17,34,.9); color:#fff; border:1px solid var(--line2); border-radius:10px;
+    padding:11px 14px; font-size:15px; font-weight:700}
+  .tinput:focus{outline:none; border-color:var(--accent)}
+  .btn{background:var(--grad); color:#fff; border:0; border-radius:10px; padding:11px 18px; font-weight:900;
+    font-size:13.5px; cursor:pointer} .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:var(--panel2); border:1px solid var(--line); color:var(--ink)}
+  .btn.danger{background:rgba(255,107,122,.14); border:1px solid rgba(255,107,122,.4); color:#ffb4bc}
+
+  /* ---------- modal / toast ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(4,6,14,.8); backdrop-filter:blur(6px); display:none;
+    align-items:flex-start; justify-content:center; padding:36px 16px; overflow:auto; z-index:80}
   .overlay.show{display:flex}
-  .modal{background:var(--panel2); border:1px solid var(--line2); border-radius:8px; width:100%;
-    max-width:840px; overflow:hidden; box-shadow:0 30px 80px -20px rgba(0,0,0,.9)}
+  .modal{background:var(--panel2); border:1px solid var(--line2); border-radius:16px; width:100%; max-width:840px;
+    overflow:hidden; box-shadow:0 30px 90px -20px #000}
   .modal header{display:flex; align-items:center; gap:12px; padding:20px 24px; border-bottom:1px solid var(--line)}
-  .modal header h2{margin:0; font-size:20px; font-weight:800}
-  .modal .x{margin-inline-start:auto; background:rgba(255,255,255,.07); border:0; color:#fff; width:34px;
-    height:34px; border-radius:8px; cursor:pointer; font-size:16px; transition:.15s}
-  .modal .x:hover{background:rgba(255,107,107,.2)}
+  .modal header h2{margin:0; font-size:20px; font-weight:900}
+  .modal .x{margin-inline-start:auto; background:rgba(255,255,255,.07); border:0; color:#fff; width:34px; height:34px;
+    border-radius:9px; cursor:pointer; font-size:16px} .modal .x:hover{background:rgba(255,107,122,.2)}
   .modal .content{padding:22px 24px}
   .plan-ctrl{display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; margin-bottom:20px}
   .field{display:flex; flex-direction:column; gap:6px}
-  .field label{font-size:12px; color:var(--muted); font-weight:600}
-  .field input, .field select{background:var(--panel); color:var(--ink); border:1px solid var(--line);
-    border-radius:8px; padding:10px 13px; font-family:inherit; font-size:14px}
-  .field input:focus, .field select:focus{outline:none; border-color:var(--accent)}
+  .field label{font-size:12px; color:var(--muted); font-weight:700}
+  .field input, .field select{background:var(--panel); color:var(--ink); border:1px solid var(--line); border-radius:10px;
+    padding:10px 13px; font-size:14px} .field input:focus,.field select:focus{outline:none; border-color:var(--accent)}
   .plan-summary{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:18px}
-  .psum{flex:1; min-width:120px; background:var(--panel); border:1px solid var(--line); border-radius:8px;
-    padding:14px 16px; text-align:center}
-  .psum b{display:block; font-size:26px; font-weight:800; color:var(--accent)}
-  .psum span{font-size:11.5px; color:var(--muted); font-weight:500}
-  .plan-list{display:flex; flex-direction:column; gap:8px; max-height:48vh; overflow:auto}
-  .prow{display:flex; align-items:center; gap:12px; background:var(--panel); border:1px solid var(--line);
-    border-radius:8px; padding:10px 14px}
-  .prow .num{width:28px; height:28px; border-radius:8px; background:var(--accent); color:#04101f;
-    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0}
-  .prow .pn{font-weight:700; direction:ltr; text-align:start; flex:1}
-  .prow .ph{color:var(--muted); font-size:12px; white-space:nowrap}
-  .prow .pw{color:var(--accent2); font-size:12px; white-space:nowrap; background:var(--accentSoft);
-    padding:4px 10px; border-radius:8px; font-weight:600}
-
-  /* ---------- toast ---------- */
-  .toast{position:fixed; inset-block-end:26px; inset-inline:0; margin:auto; width:max-content; max-width:90%;
-    color:#fff; padding:13px 24px; border-radius:8px; font-size:14.5px; font-weight:700; z-index:90;
-    border:1px solid var(--line2); background:var(--panel2); box-shadow:0 20px 50px -16px rgba(0,0,0,.9);
-    opacity:0; transform:translateY(14px); transition:.26s cubic-bezier(.2,.7,.3,1); pointer-events:none}
+  .psum{flex:1; min-width:120px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; text-align:center}
+  .psum b{display:block; font-size:26px; font-weight:900; color:var(--accent2)} .psum span{font-size:11.5px; color:var(--muted); font-weight:600}
+  .plan-list{display:flex; flex-direction:column; gap:8px; max-height:46vh; overflow:auto}
+  .prow{display:flex; align-items:center; gap:12px; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 14px}
+  .prow .num{width:28px; height:28px; border-radius:8px; background:var(--accent); color:#fff; display:flex; align-items:center;
+    justify-content:center; font-size:12px; font-weight:900; flex-shrink:0}
+  .prow .pn{font-weight:800; direction:ltr; text-align:start; flex:1}
+  .prow .ph{color:var(--muted); font-size:12px} .prow .pw{color:var(--accent2); font-size:12px; background:var(--accentSoft);
+    padding:4px 10px; border-radius:8px; font-weight:800}
+  .toast{position:fixed; inset-block-end:26px; inset-inline:0; margin:auto; width:max-content; max-width:90%; color:#fff;
+    padding:13px 24px; border-radius:12px; font-size:14.5px; font-weight:800; z-index:90; border:1px solid var(--line2);
+    background:var(--panel2); box-shadow:0 20px 50px -16px #000; opacity:0; transform:translateY(14px);
+    transition:.26s cubic-bezier(.2,.7,.3,1); pointer-events:none}
   .toast.show{opacity:1; transform:translateY(0)}
-  .foot{color:var(--dim); font-size:12.5px; text-align:center; margin-top:38px; font-weight:500}
 
-  @media(max-width:1040px){
-    .hero-panel{grid-template-columns:1fr}
-    .hero-art{min-height:240px}
+  @media(max-width:1080px){
+    .dash{grid-template-columns:1fr} .statrow{grid-template-columns:repeat(2,1fr)} .botrow{grid-template-columns:1fr}
   }
-  @media(max-width:780px){
-    .app{padding-inline:12px}
-    .topline{grid-template-columns:1fr}
-    .hero-copy{padding:22px; min-height:260px}
-    .hero-copy h2{font-size:28px}
-    .bento{grid-template-columns:repeat(2,1fr); grid-auto-rows:110px}
-    .tile.play{grid-column:span 2; grid-row:span 2}
-    .tile.plant{grid-column:span 2}
-    .card.span2{grid-column:span 1}
-    .libhead{align-items:flex-start}
-    .controls{width:100%; margin-inline-start:0}
-    .controls input[type=text]{width:100%}
-    .seg{width:100%; overflow:auto}
+  @media(max-width:820px){
+    .shell{flex-direction:column}
+    .sidebar{width:auto; height:auto; position:sticky; top:0; flex-direction:column; padding:12px}
+    .side-nav{flex-direction:row; overflow-x:auto; gap:4px} .nav-item{flex-shrink:0; padding:9px 12px}
+    .nav-item .badge{display:none} .side-profile{display:none} .nav-item.active::before{display:none}
+    .side-brand{padding-bottom:10px}
+    .statrow{grid-template-columns:repeat(2,1fr)} .yg-grid{grid-template-columns:repeat(2,1fr)}
   }
-  @media(max-width:520px){
-    .hero-panel{min-height:auto}
-    .hero-art{min-height:190px}
-    .grid{grid-template-columns:1fr}
-    .play .pbtns{flex-direction:column}
-    .timerow{flex-wrap:wrap}
-  }
+  @media(max-width:520px){ .statrow{grid-template-columns:1fr} .grid{grid-template-columns:1fr} .card.span2{grid-column:span 1} }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="shell">
 
-  <div class="appbar">
-    <div class="topline">
-      <div class="brand">
-        <div class="logo"><span>◆</span></div>
-        <div>
-          <h1>مكتبة ألعابي</h1>
-          <p>Backlog Command Center</p>
-        </div>
-      </div>
+  <aside class="sidebar">
+    <div class="side-brand">
+      <div class="logo">◆</div>
+      <div><h1>مكتبة ألعابي</h1><small>GAMING BACKLOG</small></div>
+    </div>
+    <nav class="side-nav" id="sideNav"></nav>
+    <div class="side-profile" id="sideProfile" data-nav="settings"></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
       <div class="searchbox" id="searchbox">
         <div class="sfield">
-          <input type="text" id="gameSearch" autocomplete="off"
-                 placeholder="اكتب اسم لعبة... مثال: Elden Ring">
+          <input type="text" id="gameSearch" autocomplete="off" placeholder="اكتب اسم لعبة لإضافتها… مثال: Elden Ring">
           <span class="sicon" id="sicon">⌕</span>
         </div>
         <div class="results" id="results"></div>
       </div>
     </div>
+    <div class="view" id="view"></div>
   </div>
-
-  <section class="hero-panel" aria-label="لوحة مكتبة الألعاب">
-    <div class="hero-copy">
-      <div>
-        <p class="eyebrow">RAWG + HLTB + Local Library</p>
-        <h2>كل ألعابك، وقتها، وحالتها في لوحة واحدة.</h2>
-        <p>ابحث، أضف، رتّب، وحدد اللعبة التالية بدون تسجيل أو حسابات.</p>
-      </div>
-      <div class="hero-stats" aria-label="مصادر وخصائص">
-        <span>⌕ بحث مباشر</span>
-        <span>⏱ أوقات اللعب</span>
-        <span>▣ مكتبة محلية</span>
-      </div>
-    </div>
-    <div class="hero-art" role="img" aria-label="مكتبة ألعاب منظمة على مكتب ألعاب">
-      <div class="art-chip">
-        <span>Backlog</span>
-        <span>Playing</span>
-        <span>Done</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- bento dashboard -->
-  <section class="bento" id="bento"></section>
-
-  <!-- library -->
-  <div class="libhead">
-    <h2>المكتبة</h2>
-    <span class="count" id="libCount"></span>
-    <div class="controls">
-      <div class="seg" id="statusSeg">
-        <button data-f="all" class="active">الكل</button>
-        <button data-f="backlog">القائمة</button>
-        <button data-f="playing">ألعبها</button>
-        <button data-f="done">خلّصت</button>
-      </div>
-      <button class="pickbtn" id="pickBtn">اقترح لي لعبة</button>
-      <input type="text" id="filterSearch" placeholder="🔎 فلترة…">
-      <select id="genre"><option value="">كل التصنيفات</option></select>
-      <select id="viewMode">
-        <option value="grid">عرض شبكي</option>
-        <option value="genre">حسب التصنيف</option>
-      </select>
-      <select id="sort">
-        <option value="rating">الأعلى تقييماً</option>
-        <option value="short">الأقصر مدة</option>
-        <option value="long">الأطول مدة</option>
-        <option value="added">المضافة حديثاً</option>
-        <option value="name">الاسم (A-Z)</option>
-        <option value="year">الأحدث إصداراً</option>
-      </select>
-      <button class="ibtn" id="exportBtn" title="حفظ نسخة من مكتبتك">📤</button>
-      <button class="ibtn" id="importBtn" title="استيراد مكتبة من ملف">📥</button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
-    </div>
-  </div>
-
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty"></div>
-
-  <div class="foot" id="foot"></div>
 </div>
 
 <!-- Plan modal -->
 <div class="overlay" id="overlay">
   <div class="modal">
-    <header>
-      <h2>🗓️ خطة اللعب</h2>
-      <button class="x" id="closePlan">✕</button>
-    </header>
+    <header><h2>🗓️ خطة اللعب</h2><button class="x" id="closePlan">✕</button></header>
     <div class="content">
       <div class="plan-ctrl">
-        <div class="field">
-          <label>ساعات اللعب بالأسبوع</label>
-          <input type="number" id="hpw" value="10" min="1" max="100" style="width:130px">
-        </div>
-        <div class="field">
-          <label>الاستراتيجية</label>
+        <div class="field"><label>ساعات اللعب بالأسبوع</label>
+          <input type="number" id="hpw" value="10" min="1" max="100" style="width:130px"></div>
+        <div class="field"><label>الاستراتيجية</label>
           <select id="strategy">
             <option value="short">انتصارات سريعة (الأقصر أولاً)</option>
             <option value="rating">الأعلى تقييماً أولاً</option>
             <option value="balanced">متوازن (تقييم ÷ مدة)</option>
             <option value="long">الملاحم أولاً (الأطول)</option>
-          </select>
-        </div>
+          </select></div>
       </div>
       <div class="plan-summary" id="planSummary"></div>
       <div class="plan-list" id="planList"></div>
@@ -503,321 +431,186 @@
 
 <script>
 const RAWG_KEY = "031db013391842b4b38ab2ca874f98c5";
-// نسخة GitHub Pages: بدون وسيط (Pages ما تشغّل دوال) — يستخدم متوسط RAWG.
-// للأوقات الدقيقة استخدم نسخة Netlify.
 const HLTB_PROXY = "";
 const LIB_KEY  = "backlog_lib_v1";
+const PROF_KEY = "backlog_profile_v1";
 const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-function demoCover(title, c1, c2, mark){
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/>
-      </linearGradient>
-      <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" stitchTiles="stitch" opacity=".22"/></filter>
-    </defs>
-    <rect width="960" height="540" fill="url(#g)"/>
-    <rect width="960" height="540" filter="url(#noise)" opacity=".28"/>
-    <circle cx="720" cy="120" r="210" fill="rgba(255,255,255,.13)"/>
-    <circle cx="190" cy="415" r="170" fill="rgba(0,0,0,.22)"/>
-    <path d="M120 376 C265 210 390 432 545 240 S770 206 850 120" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="18"/>
-    <text x="70" y="104" fill="rgba(255,255,255,.9)" font-family="Arial, sans-serif" font-size="34" font-weight="800">${mark}</text>
-    <text x="70" y="452" fill="#fff" font-family="Arial, sans-serif" font-size="56" font-weight="900">${title}</text>
-  </svg>`;
-  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-}
+/* ---------- demo ---------- */
+function demoCover(t,c1,c2,m){const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="960" height="540" fill="url(#g)"/><circle cx="720" cy="120" r="210" fill="rgba(255,255,255,.12)"/><circle cx="190" cy="415" r="170" fill="rgba(0,0,0,.22)"/><path d="M120 376 C265 210 390 432 545 240 S770 206 850 120" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="18"/><text x="70" y="104" fill="rgba(255,255,255,.9)" font-family="Arial" font-size="34" font-weight="800">${m}</text><text x="70" y="452" fill="#fff" font-family="Arial" font-size="54" font-weight="900">${t}</text></svg>`;return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);}
 function seedDemoLibrary(){
-  const now = Date.now();
-  const demo = [
-    ["Ashen Circuit",4.7,91,2026,["Action","Racing"],18,"playing",demoCover("Ashen Circuit","#233b36","#e95f4e","NEON RUN")],
-    ["Moonlit Quarry",4.3,84,2025,["Adventure","Puzzle"],9,"backlog",demoCover("Moonlit Quarry","#101820","#2cc6a3","EXPLORE")],
-    ["Iron Orchard",4.6,88,2024,["RPG","Strategy"],42,"backlog",demoCover("Iron Orchard","#3b2f1f","#f3b348","TACTICS")],
-    ["Signal Beneath",4.1,79,2023,["Horror","Indie"],7,"done",demoCover("Signal Beneath","#171a17","#5b6d85","STATIC")],
-    ["Crown of Salt",4.8,94,2026,["RPG","Open World"],66,"backlog",demoCover("Crown of Salt","#0f2027","#c99b55","MYTH")],
-    ["Pixel Monsoon",3.9,75,2022,["Platformer","Arcade"],5,"done",demoCover("Pixel Monsoon","#23395b","#35c2ff","ARCADE")],
-    ["Atlas Drift",4.4,86,2025,["Sci-Fi","Shooter"],13,"playing",demoCover("Atlas Drift","#18122b","#7f5af0","ORBIT")],
-    ["Velvet Siege",4.2,81,2024,["Strategy","Simulation"],28,"backlog",demoCover("Velvet Siege","#2b1818","#d8644a","SIEGE")],
-    ["Garden Zero",4.0,77,2023,["Cozy","Builder"],16,"backlog",demoCover("Garden Zero","#10251d","#70d38a","BUILD")],
-    ["Last Lantern",4.5,89,2025,["Adventure","Narrative"],11,"done",demoCover("Last Lantern","#1b1d24","#f0a84a","STORY")]
-  ].map((x,i)=>({
-    id:900000+i, name:x[0], slug:"", rating:x[1], ratings_count:1200+i*271,
-    metacritic:x[2], year:String(x[3]), genres:x[4], image:x[7], playtime:x[5],
-    customHours:null, status:x[6], added:now-(i*86400000),
-    hltb:{ main:x[5], mainExtra:Math.round(x[5]*1.7), completionist:Math.round(x[5]*2.6) }
-  }));
-  localStorage.setItem(LIB_KEY, JSON.stringify(demo));
+  const now=Date.now();
+  const d=[
+    ["Echoes of Eldoria",4.8,93,2026,["RPG","Open World"],40,"playing",62,"MYTH","#241748","#7c6cff"],
+    ["Ashen Circuit",4.7,91,2026,["Action","Racing"],18,"playing",30,"NEON","#233b36","#e95f4e"],
+    ["Crown of Salt",4.8,94,2026,["RPG","Adventure"],66,"backlog",0,"EPIC","#0f2027","#c99b55"],
+    ["Iron Orchard",4.6,88,2024,["Strategy"],42,"backlog",0,"TACT","#3b2f1f","#f3b348"],
+    ["Moonlit Quarry",4.3,84,2025,["Puzzle"],9,"backlog",0,"EXPL","#101820","#2cc6a3"],
+    ["Atlas Drift",4.4,86,2025,["Sci-Fi","Shooter"],13,"backlog",0,"ORBIT","#18122b","#54d1ff"],
+    ["Signal Beneath",4.1,79,2023,["Horror"],7,"done",100,"STATIC","#171a17","#5b6d85"],
+    ["Pixel Monsoon",3.9,75,2022,["Platformer"],5,"done",100,"ARCADE","#23395b","#35c2ff"],
+    ["Last Lantern",4.5,89,2025,["Narrative"],11,"done",100,"STORY","#1b1d24","#f0a84a"],
+    ["Velvet Siege",4.2,81,2024,["Simulation"],28,"wishlist",0,"SIEGE","#2b1818","#d8644a"]
+  ].map((x,i)=>({id:900000+i,name:x[0],slug:"",rating:x[1],ratings_count:1500+i*211,metacritic:x[2],
+    year:String(x[3]),genres:x[4],image:demoCover(x[0],x[8],x[9],x[8]),playtime:x[5],customHours:null,
+    status:x[6],progress:x[7],added:now-(i*86400000),touched:now-(i*3600000),
+    hltb:{main:x[5],mainExtra:Math.round(x[5]*1.6),completionist:Math.round(x[5]*2.5)}}));
+  localStorage.setItem(LIB_KEY,JSON.stringify(d));
 }
-if(new URLSearchParams(location.search).has("demo")){
-  seedDemoLibrary();
-  history.replaceState(null, "", location.pathname);
-}
+if(new URLSearchParams(location.search).has("demo")){ seedDemoLibrary(); history.replaceState(null,"",location.pathname); }
 
+/* ---------- data ---------- */
 let LIBRARY = loadLib();
-function loadLib(){ try{ return JSON.parse(localStorage.getItem(LIB_KEY)) || []; }catch(e){ return []; } }
+function loadLib(){ try{ return JSON.parse(localStorage.getItem(LIB_KEY))||[]; }catch(e){ return []; } }
 function saveLib(){ localStorage.setItem(LIB_KEY, JSON.stringify(LIBRARY)); }
 function inLib(id){ return LIBRARY.some(g=>g.id===id); }
-function lenOf(g){
-  if(g.customHours!=null) return g.customHours;
-  if(g.hltb && g.hltb.main!=null) return g.hltb.main;
-  return g.playtime||0;
+function lenOf(g){ if(g.customHours!=null)return g.customHours; if(g.hltb&&g.hltb.main!=null)return g.hltb.main; return g.playtime||0; }
+let profile = (()=>{ try{ return JSON.parse(localStorage.getItem(PROF_KEY))||{name:"لاعب"}; }catch(e){ return {name:"لاعب"}; } })();
+function saveProfile(){ localStorage.setItem(PROF_KEY, JSON.stringify(profile)); }
+
+let currentView = "dashboard";
+let filter = { q:"", genre:"", sort:"rating", view:"grid" };
+let editingId = null, nextIdx = 0, recommendedId = null;
+
+const STATUS_VIEWS = { backlog:"backlog", playing:"playing", done:"done", wishlist:"wishlist" };
+const NAV = [
+  {v:"dashboard",   ic:"◈", label:"الرئيسية"},
+  {v:"backlog",     ic:"▤", label:"القائمة"},
+  {v:"playing",     ic:"▶", label:"ألعبها"},
+  {v:"done",        ic:"✓", label:"خلّصت"},
+  {v:"wishlist",    ic:"🔖", label:"Wishlist"},
+  {v:"collections", ic:"▦", label:"حسب التصنيف"},
+  {v:"stats",       ic:"📊", label:"الإحصائيات"},
+  {v:"settings",    ic:"⚙", label:"الإعدادات"},
+];
+
+/* ---------- stats + gamification ---------- */
+function stat(){
+  const backlog=LIBRARY.filter(g=>g.status==="backlog");
+  const playing=LIBRARY.filter(g=>g.status==="playing");
+  const done=LIBRARY.filter(g=>g.status==="done");
+  const wish=LIBRARY.filter(g=>g.status==="wishlist");
+  const rated=LIBRARY.filter(g=>g.rating);
+  const monthAgo=Date.now()-30*86400000;
+  const addedMonth=LIBRARY.filter(g=>(g.added||0)>monthAgo);
+  return {
+    total:LIBRARY.length, backlog:backlog.length, playing:playing.length, done:done.length, wish:wish.length,
+    remainHrs:Math.round(backlog.reduce((s,g)=>s+lenOf(g),0)),
+    totalHrs:Math.round(LIBRARY.filter(g=>g.status!=="wishlist").reduce((s,g)=>s+lenOf(g),0)),
+    doneHrs:Math.round(done.reduce((s,g)=>s+lenOf(g),0)),
+    avg:rated.length?(rated.reduce((s,g)=>s+g.rating,0)/rated.length):0,
+    addedMonth:addedMonth.length, hrsMonth:Math.round(addedMonth.reduce((s,g)=>s+lenOf(g),0)),
+  };
+}
+const ACH = [
+  {id:"first",   ic:"🎮", name:"البداية",           desc:"أضف أول لعبة",       xp:20,  test:s=>s.total>=1},
+  {id:"ten",     ic:"📚", name:"المنظّم",           desc:"10 ألعاب بمكتبتك",   xp:50,  test:s=>s.total>=10},
+  {id:"fifty",   ic:"🏛️", name:"جامع الألعاب",       desc:"50 لعبة بمكتبتك",    xp:150, test:s=>s.total>=50},
+  {id:"fin1",    ic:"✅", name:"أول إنجاز",          desc:"خلّص لعبة",          xp:40,  test:s=>s.done>=1},
+  {id:"fin10",   ic:"⚔️", name:"Backlog Slayer",     desc:"خلّص 10 ألعاب",      xp:120, test:s=>s.done>=10},
+  {id:"fin50",   ic:"👑", name:"Backlog Conqueror",  desc:"خلّص 50 لعبة",       xp:250, test:s=>s.done>=50},
+  {id:"hrs100",  ic:"⏱️", name:"ماراثون",            desc:"100 ساعة مكتملة",    xp:100, test:s=>s.doneHrs>=100},
+  {id:"planner", ic:"🗺️", name:"المخطّط",            desc:"5+ ألعاب بالقائمة",  xp:30,  test:s=>s.backlog>=5},
+  {id:"wish5",   ic:"💖", name:"قائمة الأمنيات",     desc:"5 ألعاب بالـWishlist",xp:30, test:s=>s.wish>=5},
+];
+function achState(){ const s=stat(); return ACH.map(a=>({...a, on:a.test(s)})); }
+function xpLevel(){
+  const s=stat(); const unlocked=achState().filter(a=>a.on);
+  const xp = unlocked.reduce((t,a)=>t+a.xp,0) + s.done*20 + s.playing*5;
+  const level = Math.floor(xp/300)+1;
+  const into = xp % 300, pct = Math.round(into/300*100);
+  return { xp, level, pct, unlocked };
 }
 
-/* ---------- أوقات HowLongToBeat عبر الوسيط ---------- */
-let _hltbFails=0, _hltbOff=false;
+/* ---------- HLTB ---------- */
+let _hltbFails=0,_hltbOff=false;
 async function fetchHLTB(g){
-  if(!HLTB_PROXY || _hltbOff || g.hltb) return;
-  try{
-    const r = await fetch(`${HLTB_PROXY}?name=${encodeURIComponent(g.name)}`);
-    if(!r.ok){ if(++_hltbFails>=4) _hltbOff=true; return; }   // الوسيط غايب — أوقف المحاولات
-    _hltbFails=0;
-    const d = await r.json();
-    g.hltb = (d && d.matched)
-      ? { main:d.main, mainExtra:d.mainExtra, completionist:d.completionist }
-      : { main:null, mainExtra:null, completionist:null, noMatch:true };
+  if(!HLTB_PROXY||_hltbOff||g.hltb) return;
+  try{ const r=await fetch(`${HLTB_PROXY}?name=${encodeURIComponent(g.name)}`);
+    if(!r.ok){ if(++_hltbFails>=4)_hltbOff=true; return; }
+    _hltbFails=0; const d=await r.json();
+    g.hltb=(d&&d.matched)?{main:d.main,mainExtra:d.mainExtra,completionist:d.completionist}
+      :{main:null,mainExtra:null,completionist:null,noMatch:true};
     saveLib(); paintSoon();
-  }catch(e){ if(++_hltbFails>=4) _hltbOff=true; }
+  }catch(e){ if(++_hltbFails>=4)_hltbOff=true; }
 }
 let _hltbBusy=false;
-async function backfillHLTB(){
-  if(!HLTB_PROXY || _hltbBusy) return; _hltbBusy=true;
-  for(const g of LIBRARY.filter(g=>!g.hltb)){
-    await fetchHLTB(g);
-    await new Promise(r=>setTimeout(r,350));   // لطيف على HLTB
-  }
-  _hltbBusy=false;
-}
-
-/* ---------- إعادة رسم مُجمَّعة (تمنع وميض التحديثات الخلفية) ---------- */
+async function backfillHLTB(){ if(!HLTB_PROXY||_hltbBusy)return; _hltbBusy=true;
+  for(const g of LIBRARY.filter(g=>!g.hltb)){ await fetchHLTB(g); await new Promise(r=>setTimeout(r,350)); }
+  _hltbBusy=false; }
 let _paintTimer=null;
-function paintSoon(){ clearTimeout(_paintTimer); _paintTimer=setTimeout(()=>paint(), 300); }
+function paintSoon(){ clearTimeout(_paintTimer); _paintTimer=setTimeout(()=>paint(),300); }
 
-let filter = { q:"", status:"all", genre:"", sort:"rating", view:"grid" };
-let editingId = null;
-let nextIdx = 0;
-let recommendedId = null;
-
-/* ---------- البحث المباشر عبر RAWG ---------- */
+/* ---------- RAWG search ---------- */
 let searchTimer=null, searchSeq=0;
-const sbox = $("#searchbox"), results = $("#results");
-$("#gameSearch").addEventListener("input", e=>{
-  const q = e.target.value.trim();
-  clearTimeout(searchTimer);
-  if(q.length < 2){ hideResults(); sbox.classList.remove("loading"); return; }
-  searchTimer = setTimeout(()=>doSearch(q), 350);
-});
-$("#gameSearch").addEventListener("focus", e=>{
-  if((e.target.value.trim().length>=2) && results.children.length) results.classList.add("show");
-});
-document.addEventListener("click", e=>{ if(!sbox.contains(e.target)) hideResults(); });
+const sbox=$("#searchbox"), results=$("#results");
+$("#gameSearch").addEventListener("input",e=>{ const q=e.target.value.trim(); clearTimeout(searchTimer);
+  if(q.length<2){ hideResults(); sbox.classList.remove("loading"); return; } searchTimer=setTimeout(()=>doSearch(q),350); });
+$("#gameSearch").addEventListener("focus",e=>{ if(e.target.value.trim().length>=2&&results.children.length)results.classList.add("show"); });
+document.addEventListener("click",e=>{ if(!sbox.contains(e.target))hideResults(); });
 function hideResults(){ results.classList.remove("show"); }
-
-async function doSearch(q){
-  const seq = ++searchSeq;
-  sbox.classList.add("loading");
-  try{
-    const url = `https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(q)}&page_size=10`;
-    const r = await fetch(url);
-    if(!r.ok) throw new Error("http "+r.status);
-    const data = await r.json();
-    if(seq !== searchSeq) return;
-    renderResults(data.results||[]);
-  }catch(err){
-    if(seq !== searchSeq) return;
-    results.innerHTML = `<div class="rnote">تعذّر البحث — تأكد من الاتصال بالإنترنت 📡</div>`;
-    results.classList.add("show");
-  }finally{ if(seq === searchSeq) sbox.classList.remove("loading"); }
-}
+async function doSearch(q){ const seq=++searchSeq; sbox.classList.add("loading");
+  try{ const r=await fetch(`https://api.rawg.io/api/games?key=${RAWG_KEY}&search=${encodeURIComponent(q)}&page_size=10`);
+    if(!r.ok)throw 0; const data=await r.json(); if(seq!==searchSeq)return; renderResults(data.results||[]);
+  }catch(e){ if(seq!==searchSeq)return; results.innerHTML=`<div class="rnote">تعذّر البحث — تأكد من الإنترنت 📡</div>`; results.classList.add("show");
+  }finally{ if(seq===searchSeq)sbox.classList.remove("loading"); } }
 function renderResults(list){
-  if(!list.length){ results.innerHTML = `<div class="rnote">ما فيه نتائج 🤷 — جرّب اسم ثاني</div>`;
-    results.classList.add("show"); return; }
-  results.innerHTML = list.map(g=>{
-    const yr=(g.released||"").slice(0,4), rt=g.rating?`★ ${g.rating.toFixed(1)}`:"";
-    const mc=g.metacritic?` · MC ${g.metacritic}`:"";
+  if(!list.length){ results.innerHTML=`<div class="rnote">ما فيه نتائج 🤷 — جرّب اسم ثاني</div>`; results.classList.add("show"); return; }
+  results.innerHTML=list.map(g=>{ const yr=(g.released||"").slice(0,4),rt=g.rating?`★ ${g.rating.toFixed(1)}`:"",mc=g.metacritic?` · MC ${g.metacritic}`:"";
     const img=g.background_image?`<img class="rthumb" loading="lazy" src="${g.background_image}" alt="">`:`<div class="rthumb noimg">🎮</div>`;
-    const added=inLib(g.id);
-    return `<div class="rrow" data-id="${g.id}">${img}
-      <div class="rinfo"><div class="rname">${esc(g.name)}</div>
+    const a=inLib(g.id);
+    return `<div class="rrow" data-id="${g.id}">${img}<div class="rinfo"><div class="rname">${esc(g.name)}</div>
       <div class="rmeta">${yr||"—"} ${rt?("· "+rt):""}${mc}</div></div>
-      <button class="radd ${added?'added':''}" ${added?'disabled':''}>${added?'✓ مُضافة':'＋ إضافة'}</button></div>`;
-  }).join("");
+      <button class="radd ${a?'added':''}" ${a?'disabled':''}>${a?'✓ مُضافة':'＋ إضافة'}</button></div>`; }).join("");
   results.classList.add("show");
-  [...results.querySelectorAll(".rrow")].forEach((row,i)=>{
-    row.addEventListener("click", ()=>{ if(!inLib(list[i].id)) addGame(list[i]); });
-  });
+  [...results.querySelectorAll(".rrow")].forEach((row,i)=>row.addEventListener("click",()=>{ if(!inLib(list[i].id))addGame(list[i]); }));
 }
 function addGame(g){
-  if(inLib(g.id)) return;
-  const ng = { id:g.id, name:g.name, slug:g.slug||"", rating:g.rating||0,
-    ratings_count:g.ratings_count||0, metacritic:g.metacritic||null,
-    year:(g.released||"").slice(0,4)||null, genres:(g.genres||[]).map(x=>x.name),
-    image:g.background_image||null, playtime:g.playtime||0,
-    customHours:null, status:"backlog", added:Date.now() };
-  LIBRARY.push(ng);
-  saveLib(); refreshGenres(); paint();
-  fetchHLTB(ng);                            // يجيب أوقات HLTB بالخلفية (إن توفّر الوسيط)
+  if(inLib(g.id))return;
+  const ng={id:g.id,name:g.name,slug:g.slug||"",rating:g.rating||0,ratings_count:g.ratings_count||0,
+    metacritic:g.metacritic||null,year:(g.released||"").slice(0,4)||null,genres:(g.genres||[]).map(x=>x.name),
+    image:g.background_image||null,playtime:g.playtime||0,customHours:null,status:"backlog",progress:0,
+    added:Date.now(),touched:Date.now()};
+  LIBRARY.push(ng); saveLib(); fetchHLTB(ng); paint();
   toast(`تمت إضافة "${g.name}" ✓`);
-  const row = results.querySelector(`.rrow[data-id="${g.id}"] .radd`);
+  const row=results.querySelector(`.rrow[data-id="${g.id}"] .radd`);
   if(row){ row.textContent="✓ مُضافة"; row.classList.add("added"); row.disabled=true; }
 }
 
-/* ---------- تصدير / استيراد ---------- */
-$("#exportBtn").addEventListener("click", ()=>{
-  if(!LIBRARY.length){ toast("مكتبتك فاضية — ما فيه شي تصدّره"); return; }
-  const stamp = new Date().toISOString().slice(0,10);
-  const blob = new Blob([JSON.stringify(LIBRARY,null,2)], {type:"application/json"});
-  const a = document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download=`backlog-${stamp}.json`; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-  toast(`تم تصدير ${LIBRARY.length} لعبة 📤`);
-});
-$("#importBtn").addEventListener("click", ()=>$("#importFile").click());
-$("#importFile").addEventListener("change", e=>{
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const data=JSON.parse(reader.result);
-      if(!Array.isArray(data)) throw new Error("not array");
-      let added=0;
-      for(const g of data){ if(g && g.id!=null && !inLib(g.id)){ LIBRARY.push(g); added++; } }
-      saveLib(); refreshGenres(); paint();
-      toast(added?`تم استيراد ${added} لعبة 📥`:"كل الألعاب موجودة عندك مسبقاً");
-    }catch(err){ toast("ملف غير صالح ❌"); }
-  };
-  reader.readAsText(file); e.target.value="";
-});
+/* ---------- helpers ---------- */
+function balancedSort(arr){ return arr.slice().sort((a,b)=>{ const la=lenOf(a)||1,lb=lenOf(b)||1;
+  return ((b.rating||0)/Math.sqrt(lb))-((a.rating||0)/Math.sqrt(la)); }); }
+function statusLabel(s){ return {backlog:"القائمة",playing:"ألعبها",done:"خلّصت",wishlist:"Wishlist"}[s]||s; }
 
-/* ---------- bento dashboard ---------- */
-function balancedSort(arr){
-  return arr.slice().sort((a,b)=>{
-    const la=lenOf(a)||1, lb=lenOf(b)||1;
-    return ((b.rating||0)/Math.sqrt(lb))-((a.rating||0)/Math.sqrt(la));
-  });
+/* ---------- sidebar ---------- */
+function renderSidebar(){
+  const s=stat(); const counts={dashboard:"",backlog:s.backlog,playing:s.playing,done:s.done,wishlist:s.wish,collections:"",stats:"",settings:""};
+  $("#sideNav").innerHTML=NAV.map(n=>{
+    const c=counts[n.v]; const badge=(c!==""&&c>0)?`<span class="badge">${c}</span>`:"";
+    return `<div class="nav-item ${currentView===n.v?'active':''}" data-nav="${n.v}"><span class="ic">${n.ic}</span>${n.label}${badge}</div>`;
+  }).join("");
+  const lv=xpLevel();
+  $("#sideProfile").innerHTML=`<div class="avatar">${esc((profile.name||"لاعب").trim().charAt(0)||"ل")}</div>
+    <div style="flex:1;min-width:0"><div class="pn">${esc(profile.name||"لاعب")}</div>
+    <div class="pl">Level ${lv.level} · ${lv.xp} XP</div><div class="xpbar"><i style="width:${lv.pct}%"></i></div></div>`;
 }
-function renderBento(){
-  const bento=$("#bento");
-  if(!LIBRARY.length){ bento.style.display="none"; bento.innerHTML=""; return; }
-  bento.style.display="grid";
-  const total=LIBRARY.length;
-  const backlog=LIBRARY.filter(g=>g.status==="backlog");
-  const playing=LIBRARY.filter(g=>g.status==="playing").length;
-  const done=LIBRARY.filter(g=>g.status==="done").length;
-  const hrs=Math.round(backlog.reduce((s,g)=>s+lenOf(g),0));
-  const rated=LIBRARY.filter(g=>g.rating);
-  const avg=rated.length?(rated.reduce((s,g)=>s+g.rating,0)/rated.length).toFixed(1):"—";
-  const pct=total?Math.round(done/total*100):0;
 
-  // play-next
-  const cands=balancedSort(backlog);
-  let playTile;
-  if(cands.length){
-    const g=cands[nextIdx%cands.length];
-    const bg=g.image?`background-image:url('${g.image}')`:"background:#11141d";
-    const star=g.rating?`<span class="pm star">★ ${g.rating.toFixed(1)}</span>`:"";
-    const tm=lenOf(g)?`<span class="pm">⏱ ${lenOf(g)} ساعة</span>`:"";
-    const gn=g.genres[0]?`<span class="pm">${esc(g.genres[0])}</span>`:"";
-    playTile=`<div class="tile play" style="border-color:var(--line2)">
-      <div class="pbg" style="${bg}"></div>
-      <div class="pcontent">
-        <span class="plabel">▶ العب التالي</span>
-        <div class="ptitle">${esc(g.name)}</div>
-        <div class="pmeta">${star}${tm}${gn}</div>
-        <div class="pbtns">
-          <button class="pbtn go" data-act="startnext" data-id="${g.id}">▶ ابدأها</button>
-          ${cands.length>1?`<button class="pbtn alt" data-act="shuffle">↻ غيّرها</button>`:""}
-        </div>
-      </div></div>`;
-  }else{
-    playTile=`<div class="tile play empty"><div class="pe">
-      <b>القائمة خلصت 🎉</b>${done?`خلّصت كل ألعابك — أضف جديد`:`ابحث وأضف ألعاب لتبدأ`}</div></div>`;
-  }
-
-  const ring=`<div class="tile ring">
-    <div class="dial" style="background:conic-gradient(var(--accent) ${pct*3.6}deg, rgba(255,255,255,.08) 0)">
-      <span class="dval">${pct}%</span></div>
-    <div class="rlabel"><b>${done} من ${total}</b>نسبة الإنجاز</div></div>`;
-
-  const stat=(cls,ico,num,label,f)=>`<div class="tile stat tap ${cls}" ${f?`data-filter="${f}"`:""}>
-    <div class="stop"><span class="slabel">${label}</span><span class="sico">${ico}</span></div>
-    <div class="snum">${num}</div></div>`;
-
-  const planTile=`<div class="tile plant tap" data-act="plan">
-    <div class="pico">🗓️</div>
-    <div class="ptxt"><b>خطة اللعب</b><span>كم أسبوع تخلّص قائمتك؟</span></div>
-    <span class="parrow">←</span></div>`;
-
-  bento.innerHTML = playTile + ring
-    + stat("c-blue","📋",backlog.length,"بالقائمة","backlog")
-    + stat("c-play","▶",playing,"ألعبها الحين","playing")
-    + stat("","⏱",hrs,"ساعة متبقية","")
-    + stat("c-gold","★",avg,"متوسط التقييم","")
-    + stat("c-done","✓",done,"خلّصتها","done")
-    + planTile;
-}
-$("#bento").addEventListener("click",e=>{
-  const t=e.target.closest("[data-act],[data-filter]"); if(!t)return;
-  const act=t.dataset.act;
-  if(act==="startnext"){ const g=LIBRARY.find(x=>String(x.id)===t.dataset.id);
-    if(g){ g.status="playing"; saveLib(); paint(); toast(`بالتوفيق في "${g.name}" 🎮`);} return; }
-  if(act==="shuffle"){ nextIdx++; renderBento(); return; }
-  if(act==="plan"){ openPlan(); return; }
-  if(t.dataset.filter!=null){
-    const f=t.dataset.filter;
-    [...$("#statusSeg").children].forEach(b=>b.classList.toggle("active",b.dataset.f===f));
-    filter.status=f; renderLibrary();
-    document.querySelector('.libhead').scrollIntoView({behavior:"smooth",block:"start"});
-  }
-});
-
-/* ---------- library ---------- */
-function refreshGenres(){
-  const cur=$("#genre").value;
-  const all=[...new Set(LIBRARY.flatMap(g=>g.genres))].sort();
-  $("#genre").innerHTML=`<option value="">كل التصنيفات</option>`+all.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");
-  if(all.includes(cur)) $("#genre").value=cur;
-}
-function visible(){
-  return LIBRARY.filter(g=>{
-    if(filter.status!=="all" && g.status!==filter.status) return false;
-    if(filter.genre && !g.genres.includes(filter.genre)) return false;
-    if(filter.q && !g.name.toLowerCase().includes(filter.q)) return false;
-    return true;
-  }).sort(cmp);
-}
-function cmp(a,b){
-  switch(filter.sort){
-    case "short": return (lenOf(a)||1e9)-(lenOf(b)||1e9);
-    case "long":  return (lenOf(b)||0)-(lenOf(a)||0);
-    case "added": return (b.added||0)-(a.added||0);
-    case "name":  return a.name.localeCompare(b.name);
-    case "year":  return (b.year||0)-(a.year||0);
-    default:      return (b.rating||0)-(a.rating||0);
-  }
-}
+/* ---------- card ---------- */
 function timeBlock(g){
-  if(String(editingId)===String(g.id)){
-    return `<div class="timewrap"><div class="hedit">
-        <input type="number" step="0.5" min="0" id="hinp" value="${g.customHours!=null?g.customHours:(lenOf(g)||'')}" placeholder="ساعات القصة">
-        <button class="hsave">✓</button><button class="hcancel">✕</button></div></div>`;
-  }
-  const cell=(label,v,cls="")=>`<div class="hcell ${cls}"><b>${v!=null?v+"س":"—"}</b><span>${label}</span></div>`;
+  if(String(editingId)===String(g.id)) return `<div class="timewrap"><div class="hedit">
+    <input type="number" step="0.5" min="0" id="hinp" value="${g.customHours!=null?g.customHours:(lenOf(g)||'')}" placeholder="ساعات القصة">
+    <button class="hsave">✓</button><button class="hcancel">✕</button></div></div>`;
+  const cell=(l,v,c="")=>`<div class="hcell ${c}"><b>${v!=null?v+"س":"—"}</b><span>${l}</span></div>`;
   const h=g.hltb;
-  if(h && (h.main!=null||h.mainExtra!=null||h.completionist!=null)){
-    const mainV = g.customHours!=null ? g.customHours : h.main;
-    return `<div class="timewrap">
-      <div class="timerow">
-        ${cell("القصة", mainV, g.customHours!=null?"custom":"")}
-        ${cell("+إضافات", h.mainExtra)}
-        ${cell("100%", h.completionist)}
-      </div>
+  if(h&&(h.main!=null||h.mainExtra!=null||h.completionist!=null)){
+    const mv=g.customHours!=null?g.customHours:h.main;
+    return `<div class="timewrap"><div class="timerow">${cell("القصة",mv,g.customHours!=null?"custom":"")}${cell("+إضافات",h.mainExtra)}${cell("100%",h.completionist)}</div>
       <button class="tedit wide" data-a="edithours">✏️ تعديل وقت القصة</button></div>`;
   }
-  const v=lenOf(g), custom=g.customHours!=null;
-  const label = custom ? "وقتك" : (HLTB_PROXY ? "متوسط (جاري جلب HLTB…)" : "متوسط تقريبي");
-  return `<div class="timewrap"><div class="timerow">
-      ${cell(label, v||null, custom?"custom":"")}
-      <button class="tedit" data-a="edithours" title="عدّل الساعات">✏️</button></div></div>`;
+  const v=lenOf(g),custom=g.customHours!=null,label=custom?"وقتك":(HLTB_PROXY?"متوسط (جاري HLTB…)":"متوسط تقريبي");
+  return `<div class="timewrap"><div class="timerow">${cell(label,v||null,custom?"custom":"")}
+    <button class="tedit" data-a="edithours" title="عدّل الساعات">✏️</button></div></div>`;
 }
 function card(g,i){
   const img=g.image?`<img loading="lazy" src="${g.image}" alt="" onerror="this.onerror=null;this.style.display='none'">`:`<div class="noimg">🎮</div>`;
@@ -828,130 +621,320 @@ function card(g,i){
   const link=g.slug?`https://rawg.io/games/${g.slug}`:"#";
   const span=g.status==="playing"?"span2":"";
   const reco=String(recommendedId)===String(g.id)?"recommended":"";
+  const prog=(g.status==="playing"&&g.progress)?`<div class="cardprog"><i style="width:${g.progress}%"></i></div>`:"";
+  const progEdit=g.status==="playing"?`<div class="prow-edit"><input type="range" class="progrange" min="0" max="100" step="5" value="${g.progress||0}" data-id="${g.id}"><span>${g.progress||0}%</span></div>`:"";
+  const badge=g.status==="playing"?"▶ ألعبها":g.status==="done"?"✓ خلّصتها":"";
   return `<div class="card s-${g.status} ${span} ${reco}" data-id="${g.id}" style="animation-delay:${Math.min(i,12)*0.03}s">
-    <div class="thumb">${img}${rating}
-      <div class="badge-status">${g.status==="playing"?"▶ ألعبها":"✓ خلّصتها"}</div></div>
+    <div class="thumb">${img}
+      <button class="bookmark" data-a="wish" title="Wishlist">🔖</button>${rating}
+      <div class="badge-status">${badge}</div>${prog}</div>
     <div class="body">
       <div class="title"><a href="${link}" target="_blank" rel="noopener">${esc(g.name)}</a></div>
       <div class="meta">${genres}${year}${mc}</div>
-      ${timeBlock(g)}
+      ${timeBlock(g)}${progEdit}
       <div class="actions">
         <button class="act-play ${g.status==="playing"?"on":""}" data-a="playing">▶ ألعبها</button>
         <button class="act-done ${g.status==="done"?"on":""}" data-a="done">✓ خلّصت</button>
         <button class="act-del" data-a="del" title="حذف">🗑️</button></div>
     </div></div>`;
 }
-function renderLibrary(){
-  const list=visible();
-  if(filter.view==="genre" && list.length){
-    const groups = new Map();
-    for(const g of list){
-      const name = filter.genre || g.genres[0] || "بدون تصنيف";
-      if(!groups.has(name)) groups.set(name, []);
-      groups.get(name).push(g);
-    }
-    $("#grid").className = "genre-groups";
-    $("#grid").innerHTML = [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([name,items])=>`
-      <section class="genre-section">
-        <h3 class="genre-title">${esc(name)} <span>${items.length}</span></h3>
-        <div class="grid">${items.map((g,i)=>card(g,i)).join("")}</div>
-      </section>`).join("");
-  }else{
-    $("#grid").className = "grid";
-    $("#grid").innerHTML=list.map((g,i)=>card(g,i)).join("");
-  }
-  $("#libCount").textContent=LIBRARY.length?`${list.length} من ${LIBRARY.length}`:"";
-  const emp=$("#empty");
-  if(!LIBRARY.length){
-    emp.innerHTML=`<div class="big">🎮</div><div class="t">مكتبتك فاضية</div>
-      <div class="s">اكتب اسم أي لعبة في خانة البحث بالأعلى وأضفها لتبدأ</div>`;
-    emp.style.display="block";
-  }else if(!list.length){
-    emp.innerHTML=`<div class="big">🤷</div><div class="t">ما فيه ألعاب تطابق الفلتر</div>`;
-    emp.style.display="block";
-  }else emp.style.display="none";
-  $("#foot").innerHTML=LIBRARY.length?`البيانات محفوظة محلياً على جهازك · مصدر البيانات RAWG`:`ابدأ بإضافة لعبة — بدون تسجيل، بدون إيميل`;
+
+/* ---------- library filtering ---------- */
+function listFor(status){
+  return LIBRARY.filter(g=>{
+    if(status!=="all"&&g.status!==status) return false;
+    if(filter.genre&&!g.genres.includes(filter.genre)) return false;
+    if(filter.q&&!g.name.toLowerCase().includes(filter.q)) return false;
+    return true;
+  }).sort(cmp);
 }
-function paint(){
-  document.body.classList.toggle("has-library", LIBRARY.length>0);
-  renderBento(); renderLibrary();
+function cmp(a,b){ switch(filter.sort){
+  case "short": return (lenOf(a)||1e9)-(lenOf(b)||1e9);
+  case "long":  return (lenOf(b)||0)-(lenOf(a)||0);
+  case "added": return (b.added||0)-(a.added||0);
+  case "name":  return a.name.localeCompare(b.name);
+  case "year":  return (b.year||0)-(a.year||0);
+  default:      return (b.rating||0)-(a.rating||0); } }
+function genreOptions(){ const all=[...new Set(LIBRARY.flatMap(g=>g.genres))].sort();
+  return `<option value="">كل التصنيفات</option>`+all.map(x=>`<option value="${esc(x)}" ${filter.genre===x?'selected':''}>${esc(x)}</option>`).join(""); }
+function controlsBar(showView){
+  const sortOpts=[["rating","الأعلى تقييماً"],["short","الأقصر مدة"],["long","الأطول مدة"],["added","المضافة حديثاً"],["name","الاسم (A-Z)"],["year","الأحدث إصداراً"]]
+    .map(([v,l])=>`<option value="${v}" ${filter.sort===v?'selected':''}>${l}</option>`).join("");
+  return `<div class="controls">
+    <button class="pickbtn" data-a="pick">✨ اقترح لي لعبة</button>
+    <input type="text" id="filterSearch" placeholder="🔎 فلترة…" value="${esc(filter.q)}">
+    <select id="genre">${genreOptions()}</select>
+    ${showView?`<select id="viewMode"><option value="grid" ${filter.view==='grid'?'selected':''}>عرض شبكي</option><option value="genre" ${filter.view==='genre'?'selected':''}>حسب التصنيف</option></select>`:""}
+    <select id="sort">${sortOpts}</select>
+    <span class="spacer"></span>
+    <button class="ibtn" data-a="export" title="تصدير">📤</button>
+    <button class="ibtn" data-a="import" title="استيراد">📥</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+  </div>`;
+}
+function gridHTML(list){ return list.length?`<div class="grid">${list.map((g,i)=>card(g,i)).join("")}</div>`
+  :`<div class="empty"><div class="big">🤷</div><div class="t">ما فيه ألعاب هنا</div><div class="s">جرّب فلتر ثاني أو أضف ألعاب من البحث بالأعلى</div></div>`; }
+
+/* ---------- views ---------- */
+function viewDashboard(){
+  if(!LIBRARY.length){
+    return `<div class="empty"><div class="big">🎮</div><div class="t">مكتبتك فاضية</div>
+      <div class="s">اكتب اسم أي لعبة في خانة البحث بالأعلى وأضفها لتبدأ — أو جرّب <a style="color:var(--accent2)" href="?demo=1">النسخة التجريبية</a></div></div>`;
+  }
+  const s=stat(); const pct=s.total?Math.round(s.done/s.total*100):0;
+  // continue = a playing game (else suggest from backlog)
+  const playingGames=LIBRARY.filter(g=>g.status==="playing").sort((a,b)=>(b.touched||0)-(a.touched||0));
+  const cands=balancedSort(LIBRARY.filter(g=>g.status==="backlog"));
+  let cont;
+  if(playingGames.length){ const g=playingGames[nextIdx%playingGames.length]; cont=continueCard(g,true); }
+  else if(cands.length){ const g=cands[nextIdx%cands.length]; cont=continueCard(g,false); }
+  else cont=`<div class="continue empty panel"><div class="ce"><b>القائمة خلصت 🎉</b>${s.done?'خلّصت كل ألعابك — أضف جديد':'ابحث وأضف ألعاب لتبدأ'}</div></div>`;
+
+  // your games (recent 6)
+  const recent=LIBRARY.slice().sort((a,b)=>(b.touched||b.added||0)-(a.touched||a.added||0)).slice(0,6);
+  const yg=recent.map(g=>`<div class="mini" data-open="${g.id}"><div class="mthumb">
+      ${g.image?`<img src="${g.image}" alt="" onerror="this.style.display='none'">`:""}
+      ${g.rating?`<div class="mrate">★ ${g.rating.toFixed(1)}</div>`:""}</div>
+    <div class="minfo"><div class="mname">${esc(g.name)}</div>
+      <div class="mmeta"><span>${g.genres[0]||"—"}</span><span>${lenOf(g)?lenOf(g)+"h":"—"}</span></div></div></div>`).join("");
+
+  // donut + metrics
+  const pP=s.total?Math.round(s.playing/s.total*100):0, pB=s.total?Math.round(s.backlog/s.total*100):0;
+  const donut=`<div class="panel donutcard">
+    <div class="donut" style="background:conic-gradient(var(--done) ${pct*3.6}deg, var(--playing) ${pct*3.6}deg ${(pct+pP)*3.6}deg, var(--accent) ${(pct+pP)*3.6}deg ${(pct+pP+pB)*3.6}deg, rgba(255,255,255,.07) 0)">
+      <div class="dv"><b>${pct}%</b><span>مكتملة</span></div></div>
+    <div class="legend">
+      <div><i style="background:var(--done)"></i> خلّصت <b>${s.done}</b></div>
+      <div><i style="background:var(--playing)"></i> ألعبها <b>${s.playing}</b></div>
+      <div><i style="background:var(--accent)"></i> القائمة <b>${s.backlog}</b></div>
+    </div></div>`;
+  const metric=(cls,ic,label,big,delta,dc)=>`<div class="panel metric ${cls}">
+    <div class="mtop"><span class="plabel">${label}</span><span class="ico">${ic}</span></div>
+    <div class="big">${big}</div><div class="delta ${dc}">${delta}</div></div>`;
+  const statrow=`<div class="statrow">${donut}
+    ${metric("","🎮","إجمالي الألعاب",s.total, s.addedMonth?`+${s.addedMonth} هذا الشهر`:"مكتبتك", s.addedMonth?"up":"mut")}
+    ${metric("c-time","⏱","إجمالي الساعات",s.totalHrs+"h", s.hrsMonth?`+${s.hrsMonth}h هذا الشهر`:"—", s.hrsMonth?"up":"mut")}
+    ${metric("c-done","🏆","خلّصت",s.done, pct+"% من المكتبة","mut")}
+    ${metric("c-wish","🔖","Wishlist",s.wish,"ألعاب تنتظرك","mut")}</div>`;
+
+  // recently played + achievement
+  const rp=recent.slice(0,7).map(g=>`<div class="rc" data-open="${g.id}">
+    ${g.image?`<img class="rcimg" src="${g.image}" alt="" onerror="this.style.background='#131b33'">`:`<div class="rcimg"></div>`}
+    <div class="rcname">${esc(g.name)}</div></div>`).join("");
+  const lv=xpLevel(); const top=lv.unlocked.slice().sort((a,b)=>b.xp-a.xp)[0];
+  const achB=top?`<div class="panel ach-banner"><div class="aic">${top.ic}</div>
+    <div><span class="plabel">إنجاز مفتوح</span><b>${top.name}</b><span>${top.desc}</span></div>
+    <div class="xp">+${top.xp} XP</div></div>`
+    :`<div class="panel ach-banner"><div class="aic">🔒</div><div><span class="plabel">إنجاز</span><b>ابدأ رحلتك</b><span>أضف وخلّص ألعاب لفتح الإنجازات</span></div></div>`;
+  const botrow=`<div class="botrow">
+    <div class="panel recent"><span class="plabel">آخر ما لعبت</span><div class="recent-list">${rp||'<span class="rnote">لا شيء بعد</span>'}</div></div>
+    ${achB}</div>`;
+
+  return `<div class="vhead"><h2>مرحباً، ${esc(profile.name||"لاعب")} 👋</h2><span class="sub">هذا وضع مكتبتك اليوم</span></div>
+    <div class="dash"><div class="continue panel">${cont}</div>
+      <div class="yourgames panel" style="padding:16px 18px">
+        <div class="yg-head"><span class="plabel">ألعابك</span><a data-nav="backlog">عرض الكل ←</a></div>
+        <div class="yg-grid">${yg}</div></div></div>
+    ${statrow}${botrow}`;
+}
+function continueCard(g,isPlaying){
+  const bg=g.image?`background-image:url('${g.image}')`:"background:#131b33";
+  const star=g.rating?`<span class="star">★ ${g.rating.toFixed(1)}</span>`:"";
+  const tm=lenOf(g)?`<span>⏱ ${lenOf(g)} ساعة</span>`:"";
+  const gn=g.genres[0]?`<span>${esc(g.genres[0])}</span>`:"";
+  const prog=isPlaying?`<div class="cprog"><div class="bar"><i style="width:${g.progress||0}%"></i></div><b>${g.progress||0}%</b></div>`:"";
+  return `<div class="cbg" style="${bg}"></div><div class="cwrap">
+    <span class="ctag">${isPlaying?'▶ أكمل اللعب':'✦ العب التالي'}</span>
+    <h3>${esc(g.name)}</h3><div class="csub">${isPlaying?'كمّل مغامرتك':'جاهزة تبدأها؟'}</div>
+    <div class="cmeta">${star}${tm}${gn}</div>${prog}
+    <div class="cbtns">
+      <button class="cbtn go" data-act="startnext" data-id="${g.id}">${isPlaying?'▶ أكمل':'▶ ابدأها'}</button>
+      <button class="cbtn alt" data-act="shuffle">↻ غيّرها</button>
+      <button class="cbtn alt" data-act="plan">🗓️ خطة اللعب</button>
+    </div></div>`;
+}
+function viewLibrary(status){
+  const list=listFor(status);
+  let body;
+  if(status==="wishlist"&&!LIBRARY.some(g=>g.status==="wishlist")){
+    body=`<div class="empty"><div class="big">🔖</div><div class="t">Wishlist فاضية</div>
+      <div class="s">اضغط 🔖 على أي لعبة لإضافتها لقائمة أمنياتك</div></div>`;
+  }else body=gridHTML(list);
+  const titles={backlog:"القائمة",playing:"ألعبها الحين",done:"خلّصتها",wishlist:"Wishlist"};
+  return `<div class="vhead"><h2>${titles[status]}</h2><span class="sub">${list.length} لعبة</span></div>
+    ${controlsBar(false)}${body}`;
+}
+function viewCollections(){
+  const list=listFor("all");
+  const groups=new Map();
+  for(const g of list){ const n=g.genres[0]||"بدون تصنيف"; if(!groups.has(n))groups.set(n,[]); groups.get(n).push(g); }
+  const body=list.length?`<div class="genre-groups">${[...groups.entries()].sort((a,b)=>b[1].length-a[1].length).map(([n,items])=>`
+    <section><h3 class="genre-title">${esc(n)} <span>${items.length}</span></h3><div class="grid">${items.map((g,i)=>card(g,i)).join("")}</div></section>`).join("")}</div>`
+    :`<div class="empty"><div class="big">▦</div><div class="t">لا توجد ألعاب</div></div>`;
+  return `<div class="vhead"><h2>حسب التصنيف</h2><span class="sub">${groups.size} تصنيف</span></div>${controlsBar(false)}${body}`;
+}
+function viewStats(){
+  const s=stat(); const lv=xpLevel(); const pct=s.total?Math.round(s.done/s.total*100):0;
+  const bar=(l,n,tot,col)=>{ const p=tot?Math.round(n/tot*100):0; return `<div class="brow"><span class="bl">${l}</span>
+    <div class="bt"><i style="width:${p}%;background:${col}"></i></div><span class="bn">${n}</span></div>`; };
+  const breakdown=`<div class="panel set-card"><h3>توزيع المكتبة</h3><div class="breakdown">
+    ${bar("القائمة",s.backlog,s.total,"var(--accent)")}
+    ${bar("ألعبها",s.playing,s.total,"var(--playing)")}
+    ${bar("خلّصت",s.done,s.total,"var(--done)")}
+    ${bar("Wishlist",s.wish,s.total,"var(--wish)")}</div></div>`;
+  const metric=(ic,label,big,sub)=>`<div class="panel metric"><div class="mtop"><span class="plabel">${label}</span><span class="ico">${ic}</span></div>
+    <div class="big">${big}</div><div class="delta mut">${sub}</div></div>`;
+  const cards=`<div class="statrow" style="grid-template-columns:repeat(4,1fr)">
+    ${metric("🎮","إجمالي",s.total,"لعبة")}${metric("🏆","خلّصت",s.done,pct+"%")}
+    ${metric("⏱","ساعات مكتملة",s.doneHrs+"h","منجزة")}${metric("⭐","متوسط التقييم",s.avg?s.avg.toFixed(1):"—","من 5")}</div>`;
+  const achs=achState().sort((a,b)=>(b.on-a.on)||(b.xp-a.xp)).map(a=>`<div class="ach ${a.on?'unlocked':'locked'}">
+    <div class="ai">${a.on?a.ic:"🔒"}</div><div><b>${a.name}</b><span>${a.desc}</span></div><div class="axp">+${a.xp}</div></div>`).join("");
+  return `<div class="vhead"><h2>الإحصائيات</h2><span class="sub">Level ${lv.level} · ${lv.xp} XP · ${lv.unlocked.length}/${ACH.length} إنجاز</span></div>
+    ${cards}
+    <div class="dash" style="grid-template-columns:1fr 1fr; margin-top:16px">${breakdown}
+      <div class="panel set-card"><h3>التقدّم للمستوى التالي</h3><p>Level ${lv.level} — ${lv.pct}% للمستوى ${lv.level+1}</p>
+        <div class="xpbar" style="height:12px"><i style="width:${lv.pct}%"></i></div>
+        <div style="margin-top:14px; color:var(--muted); font-weight:700; font-size:13px">تكسب XP من إضافة الألعاب، تشغيلها، وإنهائها 🎯</div></div></div>
+    <div class="vhead" style="margin:24px 0 14px"><h2 style="font-size:18px">الإنجازات</h2></div>
+    <div class="ach-grid">${achs}</div>`;
+}
+function viewSettings(){
+  const s=stat();
+  return `<div class="vhead"><h2>الإعدادات</h2></div>
+    <div class="panel set-card"><h3>الملف الشخصي</h3><p>اسمك يظهر في الشريط الجانبي — بدون تسجيل، محفوظ محلياً.</p>
+      <div class="set-row"><input class="tinput" id="profName" value="${esc(profile.name||"")}" placeholder="اسمك" maxlength="24">
+        <button class="btn" data-a="saveProfile">حفظ</button></div></div>
+    <div class="panel set-card"><h3>بياناتك</h3><p>مكتبتك (${s.total} لعبة) محفوظة في متصفح هذا الجهاز.</p>
+      <div class="set-row"><button class="btn ghost" data-a="export">📤 تصدير نسخة</button>
+        <button class="btn ghost" data-a="import">📥 استيراد</button>
+        <button class="btn ghost" data-a="demo">🎲 تعبئة تجريبية</button>
+        <button class="btn danger" data-a="clear">🗑️ مسح كل البيانات</button></div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden></div>
+    <div class="panel set-card"><h3>عن الأداة</h3>
+      <p>بحث من RAWG · أوقات HowLongToBeat · حفظ محلي بدون حساب.<br>
+      🌐 <a style="color:var(--accent2)" href="https://backlogforever.netlify.app" target="_blank">backlogforever.netlify.app</a></p></div>`;
 }
 
-$("#filterSearch").addEventListener("input",e=>{filter.q=e.target.value.toLowerCase().trim();renderLibrary();});
-$("#genre").addEventListener("change",e=>{filter.genre=e.target.value;renderLibrary();});
-$("#sort").addEventListener("change",e=>{filter.sort=e.target.value;renderLibrary();});
-$("#viewMode").addEventListener("change",e=>{filter.view=e.target.value;renderLibrary();});
-$("#pickBtn").addEventListener("click",()=>{
-  const pool=balancedSort(LIBRARY.filter(g=>g.status==="backlog"));
-  if(!pool.length){ toast("ما فيه ألعاب في القائمة للاقتراح"); return; }
-  const g=pool[0];
-  recommendedId=g.id;
-  filter.status="all";
-  [...$("#statusSeg").children].forEach(b=>b.classList.toggle("active",b.dataset.f==="all"));
-  renderLibrary();
-  requestAnimationFrame(()=>{
-    const el=$("#grid").querySelector(`.card[data-id="${g.id}"]`);
-    if(el){ el.scrollIntoView({behavior:"smooth",block:"center"}); }
-  });
-  toast(`اقتراحي الآن: ${g.name}`);
+/* ---------- render orchestration ---------- */
+function renderView(){
+  const v=currentView; let html;
+  if(v==="dashboard") html=viewDashboard();
+  else if(STATUS_VIEWS[v]) html=viewLibrary(v);
+  else if(v==="collections") html=viewCollections();
+  else if(v==="stats") html=viewStats();
+  else if(v==="settings") html=viewSettings();
+  else html=viewDashboard();
+  $("#view").innerHTML=html;
+}
+function paint(){ renderSidebar(); renderView(); }
+function go(v){ currentView=v; recommendedId=null; window.scrollTo({top:0,behavior:"smooth"}); paint(); }
+
+/* ---------- global events (delegation) ---------- */
+document.addEventListener("click",e=>{
+  const nav=e.target.closest("[data-nav]");
+  if(nav){ go(nav.dataset.nav); return; }
 });
-$("#statusSeg").addEventListener("click",e=>{
-  if(e.target.tagName!=="BUTTON")return;
-  [...e.currentTarget.children].forEach(b=>b.classList.remove("active"));
-  e.target.classList.add("active"); filter.status=e.target.dataset.f; renderLibrary();
-});
-$("#grid").addEventListener("click",e=>{
-  const cardEl=e.target.closest(".card"); if(!cardEl)return;
-  const id=cardEl.dataset.id; const g=LIBRARY.find(x=>String(x.id)===id); if(!g)return;
-  if(e.target.classList.contains("hsave")){
-    const v=parseFloat($("#hinp").value); g.customHours=(isNaN(v)||v<0)?null:v;
-    editingId=null; saveLib(); paint(); return; }
-  if(e.target.classList.contains("hcancel")){ editingId=null; renderLibrary(); return; }
+$("#view").addEventListener("click",e=>{
+  const open=e.target.closest("[data-open]");
+  if(open){ const g=LIBRARY.find(x=>String(x.id)===open.dataset.open);
+    if(g){ go(g.status in STATUS_VIEWS?g.status:"backlog"); } return; }
+  // continue / dashboard actions (data-act)
+  const act=e.target.closest("[data-act]");
+  if(act){ const a=act.dataset.act;
+    if(a==="startnext"){ const g=LIBRARY.find(x=>String(x.id)===act.dataset.id);
+      if(g){ if(g.status!=="playing"){ g.status="playing"; g.touched=Date.now(); } saveLib(); paint(); toast(`بالتوفيق في "${g.name}" 🎮`);} return; }
+    if(a==="shuffle"){ nextIdx++; paint(); return; }
+    if(a==="plan"){ openPlan(); return; }
+    return;
+  }
+  const cardEl=e.target.closest(".card");
+  // global toolbar / settings buttons (data-a, outside cards)
+  const glob=e.target.closest("[data-a]");
+  if(glob && !cardEl){ const a=glob.dataset.a;
+    if(a==="pick"){ doPick(); return; }
+    if(a==="export"){ doExport(); return; }
+    if(a==="import"){ $("#importFile").click(); return; }
+    if(a==="demo"){ if(confirm("تعبئة بيانات تجريبية؟ (بتستبدل مكتبتك الحالية)")){ seedDemoLibrary(); LIBRARY=loadLib(); go("dashboard"); backfillHLTB(); } return; }
+    if(a==="clear"){ if(confirm("مسح كل بياناتك نهائياً؟")){ LIBRARY=[]; saveLib(); go("dashboard"); toast("تم المسح"); } return; }
+    if(a==="saveProfile"){ const n=$("#profName").value.trim(); profile.name=n||"لاعب"; saveProfile(); renderSidebar(); toast("تم الحفظ ✓"); return; }
+    return;
+  }
+  // card actions
+  if(!cardEl)return;
+  const id=cardEl.dataset.id, g=LIBRARY.find(x=>String(x.id)===id); if(!g)return;
+  if(e.target.classList.contains("hsave")){ const v=parseFloat($("#hinp").value); g.customHours=(isNaN(v)||v<0)?null:v; editingId=null; saveLib(); paint(); return; }
+  if(e.target.classList.contains("hcancel")){ editingId=null; paint(); return; }
   const btn=e.target.closest("button[data-a]"); if(!btn)return;
   const a=btn.dataset.a;
-  if(a==="edithours"){ editingId=id; renderLibrary();
-    const f=$("#grid").querySelector(`.card[data-id="${id}"] #hinp`); if(f){f.focus();f.select();} return; }
-  if(a==="del"){ if(confirm(`حذف "${g.name}" من مكتبتك؟`)){
-      LIBRARY=LIBRARY.filter(x=>String(x.id)!==id); saveLib(); refreshGenres(); paint(); } return; }
-  g.status=(g.status===a)?"backlog":a; saveLib(); paint();
+  if(a==="edithours"){ editingId=id; paint(); const f=$("#view").querySelector(`.card[data-id="${id}"] #hinp`); if(f){f.focus();f.select();} return; }
+  if(a==="wish"){ g.status=(g.status==="wishlist")?"backlog":"wishlist"; g.touched=Date.now(); saveLib(); paint(); return; }
+  if(a==="del"){ if(confirm(`حذف "${g.name}" من مكتبتك؟`)){ LIBRARY=LIBRARY.filter(x=>String(x.id)!==id); saveLib(); paint(); } return; }
+  g.status=(g.status===a)?"backlog":a; g.touched=Date.now(); saveLib(); paint();
 });
+$("#view").addEventListener("input",e=>{
+  if(e.target.id==="filterSearch"){ filter.q=e.target.value.toLowerCase().trim(); rerenderViewBody(); return; }
+  if(e.target.classList.contains("progrange")){ const g=LIBRARY.find(x=>String(x.id)===e.target.dataset.id);
+    if(g){ g.progress=+e.target.value; saveLib();
+      const sp=e.target.nextElementSibling; if(sp)sp.textContent=g.progress+"%";
+      const bar=$("#view").querySelector(`.card[data-id="${g.id}"] .cardprog i`); if(bar)bar.style.width=g.progress+"%"; } return; }
+});
+$("#view").addEventListener("change",e=>{
+  if(e.target.id==="genre"){ filter.genre=e.target.value; rerenderViewBody(); }
+  else if(e.target.id==="sort"){ filter.sort=e.target.value; rerenderViewBody(); }
+  else if(e.target.id==="viewMode"){ filter.view=e.target.value; rerenderViewBody(); }
+  else if(e.target.id==="importFile"){ importFile(e.target.files[0]); e.target.value=""; }
+});
+// re-render only the current view (keeps filter inputs responsive) — used for filter changes
+function rerenderViewBody(){ renderView(); }
 
-/* ---------- خطة اللعب ---------- */
+function doPick(){
+  const pool=balancedSort(LIBRARY.filter(g=>g.status==="backlog"));
+  if(!pool.length){ toast("ما فيه ألعاب في القائمة للاقتراح"); return; }
+  const g=pool[0]; recommendedId=g.id;
+  if(currentView!=="backlog"){ currentView="backlog"; }
+  renderSidebar(); renderView();
+  requestAnimationFrame(()=>{ const el=$("#view").querySelector(`.card[data-id="${g.id}"]`); if(el)el.scrollIntoView({behavior:"smooth",block:"center"}); });
+  toast(`اقتراحي: ${g.name} ✨`);
+}
+function doExport(){
+  if(!LIBRARY.length){ toast("مكتبتك فاضية"); return; }
+  const blob=new Blob([JSON.stringify(LIBRARY,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download=`backlog-${new Date().toISOString().slice(0,10)}.json`; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000); toast(`تم تصدير ${LIBRARY.length} لعبة 📤`);
+}
+function importFile(file){ if(!file)return; const r=new FileReader();
+  r.onload=()=>{ try{ const data=JSON.parse(r.result); if(!Array.isArray(data))throw 0;
+    let n=0; for(const g of data){ if(g&&g.id!=null&&!inLib(g.id)){ LIBRARY.push(g); n++; } }
+    saveLib(); paint(); backfillHLTB(); toast(n?`تم استيراد ${n} لعبة 📥`:"كل الألعاب موجودة مسبقاً");
+  }catch(e){ toast("ملف غير صالح ❌"); } }; r.readAsText(file); }
+
+/* ---------- plan ---------- */
 function openPlan(){ $("#overlay").classList.add("show"); buildPlan(); }
 function buildPlan(){
   const strat=$("#strategy").value, hpw=Math.max(1,+$("#hpw").value||10);
   let pool=LIBRARY.filter(g=>g.status==="backlog").map(g=>({name:g.name,len:lenOf(g),rating:g.rating||0})).filter(g=>g.len>0);
   const noLen=LIBRARY.filter(g=>g.status==="backlog").length-pool.length;
-  pool.sort((a,b)=>{
-    if(strat==="short")return a.len-b.len;
-    if(strat==="long")return b.len-a.len;
-    if(strat==="rating")return b.rating-a.rating;
-    return (b.rating/Math.sqrt(b.len))-(a.rating/Math.sqrt(a.len));
-  });
+  pool.sort((a,b)=>{ if(strat==="short")return a.len-b.len; if(strat==="long")return b.len-a.len;
+    if(strat==="rating")return b.rating-a.rating; return (b.rating/Math.sqrt(b.len))-(a.rating/Math.sqrt(a.len)); });
   let cum=0; const rows=pool.map((g,i)=>{cum+=g.len;return {i:i+1,name:g.name,len:g.len,wk:Math.ceil(cum/hpw)};});
-  const tot=Math.round(cum), wks=Math.ceil(cum/hpw)||0;
-  $("#planSummary").innerHTML=`
-    <div class="psum"><b>${pool.length}</b><span>لعبة بالخطة</span></div>
-    <div class="psum"><b>${tot}</b><span>ساعة إجمالي</span></div>
-    <div class="psum"><b>${wks}</b><span>أسبوع</span></div>
+  const tot=Math.round(cum),wks=Math.ceil(cum/hpw)||0;
+  $("#planSummary").innerHTML=`<div class="psum"><b>${pool.length}</b><span>لعبة بالخطة</span></div>
+    <div class="psum"><b>${tot}</b><span>ساعة إجمالي</span></div><div class="psum"><b>${wks}</b><span>أسبوع</span></div>
     <div class="psum"><b>${(wks/4.34).toFixed(1)}</b><span>شهر تقريباً</span></div>`;
-  $("#planList").innerHTML=pool.length
-    ? rows.map(r=>`<div class="prow"><div class="num">${r.i}</div><div class="pn">${esc(r.name)}</div>
-        <div class="ph">${r.len}س</div><div class="pw">أسبوع ${r.wk}</div></div>`).join("")
-      +(noLen?`<div class="foot">+ ${noLen} لعبة بدون مدة محددة (غير مدرجة)</div>`:"")
-    : `<div class="rnote">أضف ألعاب لقائمتك أول 🎮</div>`;
+  $("#planList").innerHTML=pool.length?rows.map(r=>`<div class="prow"><div class="num">${r.i}</div><div class="pn">${esc(r.name)}</div>
+    <div class="ph">${r.len}س</div><div class="pw">أسبوع ${r.wk}</div></div>`).join("")
+    +(noLen?`<div class="rnote">+ ${noLen} لعبة بدون مدة (غير مدرجة)</div>`:""):`<div class="rnote">أضف ألعاب لقائمتك أول 🎮</div>`;
 }
 $("#closePlan").addEventListener("click",()=>$("#overlay").classList.remove("show"));
-$("#overlay").addEventListener("click",e=>{if(e.target===$("#overlay"))$("#overlay").classList.remove("show");});
+$("#overlay").addEventListener("click",e=>{ if(e.target===$("#overlay"))$("#overlay").classList.remove("show"); });
 ["#hpw","#strategy"].forEach(s=>$(s).addEventListener("input",buildPlan));
 
-/* ---------- أدوات ---------- */
+/* ---------- toast + boot ---------- */
 let toastTimer=null;
-function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show");
-  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2400); }
-function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function toast(m){ const t=$("#toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"),2400); }
 
-refreshGenres(); paint(); backfillHLTB();
+paint(); backfillHLTB();
 </script>
 </body>
 </html>
