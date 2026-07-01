@@ -1,0 +1,13 @@
+# حزم التوزيع — الأفضل ترفعها كـ GitHub Release مو داخل المستودع
+*.zip
+
+# إعدادات Claude Code المحلية
+.claude/settings.local.json
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/

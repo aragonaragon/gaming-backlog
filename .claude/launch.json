@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backlog",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["Download-PC/server.mjs"],
+      "port": 5620,
+      "autoPort": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# إعداد Netlify — موقع Backlog + وسيط HowLongToBeat
+# اسحب مجلد "Netlify" كامل على  https://app.netlify.com/drop
+
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
