@@ -1,5 +1,7 @@
 # Gaming Backlog / مكتبة ألعابي
 
+[![Open Live Site](https://img.shields.io/badge/🎮_افتح_الموقع_الحيّ-6d5efc?style=for-the-badge)](https://aragonaragon.github.io/gaming-backlog/)
+
 **🔴 التجربة المباشرة:** https://aragonaragon.github.io/gaming-backlog/
 
 موقع/أداة خفيفة لترتيب مكتبة الألعاب الشخصية بدون تسجيل وبدون إيميل. المستخدم يبحث عن اسم اللعبة، يضيفها لمكتبته، ثم يرتب الـ backlog حسب التقييم، مدة اللعب، التصنيف، أو الحالة.
