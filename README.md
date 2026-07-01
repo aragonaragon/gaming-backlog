@@ -1,5 +1,7 @@
 # Gaming Backlog / مكتبة ألعابي
 
+![Gaming Backlog — رتّب مكتبة ألعابك بسهولة](assets/promo.png)
+
 [![Open Live Site](https://img.shields.io/badge/🎮_افتح_الموقع_الحيّ-7c6cff?style=for-the-badge)](https://backlogforever.netlify.app/)
 
 أداة/موقع خفيف لترتيب مكتبة ألعابك (Backlog) — **بدون تسجيل، بدون إيميل**. اكتب اسم اللعبة،
