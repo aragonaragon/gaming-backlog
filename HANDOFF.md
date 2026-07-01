@@ -53,16 +53,12 @@
 ### نسخة PC
 
 - `Download-PC/index.html`  
-  نسخة مطابقة تقريباً من `Netlify/index.html`.
-
-- `Download-PC/server.mjs`  
-  سيرفر Node.js محلي يخدم الملفات ويمرر `/api/hltb`.
-
-- `Download-PC/hltb.mjs`  
-  نسخة من وسيط HLTB.
+  ملف واحد. مطابق لـ`Netlify/index.html` إلا أن `HLTB_PROXY` يشير للرابط
+  المطلق لدالة Netlify الحيّة، فتشتغل أوقات HLTB بمجرد فتح الملف بالدبل-كليك
+  (بدون Node ولا سيرفر). يحتاج إنترنت فقط.
 
 - `Download-PC/start-backlog.bat`  
-  مشغل Windows: يفتح المتصفح ويشغل السيرفر المحلي.
+  يفتح index.html في المتصفح الافتراضي.
 
 - `Download-PC/README-PC.txt`  
   تعليمات مستخدم PC.
@@ -92,7 +88,9 @@ HLTB:
 const HLTB_PROXY = "/api/hltb";
 ```
 
-- في PC يعمل نفس المسار عبر `Download-PC/server.mjs`.
+- في PC: `HLTB_PROXY` يشير مباشرة لدالة Netlify الحيّة
+  (`https://backlogforever.netlify.app/api/hltb`) لأن CORS مفتوح `*`،
+  فيشتغل حتى من `file://` بالدبل-كليك بدون سيرفر محلي.
 
 Demo:
 
@@ -140,25 +138,19 @@ http://localhost:5601/?demo=1
 
 تشغيل PC:
 
-```powershell
-cd Download-PC
-node server.mjs
+```text
+افتح Download-PC/index.html بالدبل-كليك (أو start-backlog.bat)
+للـdemo: أضف ?demo=1 بعد فتح الملف
 ```
 
-فتح demo:
+اختبار دالة HLTB (تعمل على Netlify الحيّ، وتخدم نسخة PC كذلك):
 
 ```text
-http://localhost:5620/?demo=1
+https://backlogforever.netlify.app/api/hltb?name=Elden Ring
 ```
 
-اختبار HLTB:
-
-```text
-http://localhost:5601/api/hltb?name=Elden Ring
-http://localhost:5620/api/hltb?name=Elden Ring
-```
-
-ملاحظة: على `python -m http.server` لن تعمل دالة `/api/hltb` لأنها تحتاج Netlify أو سيرفر PC. البحث والمكتبة يعملان.
+ملاحظة: نسخة PC تعتمد على بقاء موقع Netlify شغّالاً لأوقات HLTB. لو توقّف،
+البحث والمكتبة يظلّان يعملان مع رجوع الوقت لمتوسط RAWG.
 
 ## آخر تحقق تم
 
@@ -180,7 +172,7 @@ http://localhost:5620/api/hltb?name=Elden Ring
 
 - لا تكسر IDs الحالية مثل `gameSearch`, `results`, `bento`, `grid`, `genre`, `sort`, `statusSeg`; JavaScript يعتمد عليها.
 - التطبيق لا يستخدم bundler. أي تعديل في الواجهة يتم مباشرة داخل `index.html`.
-- عند تعديل نسخة Netlify، انسخ التغيير إلى `Download-PC/index.html` أو أعد نسخ الملف حتى تبقى النسختان متطابقتين.
+- عند تعديل نسخة Netlify، انسخ التغيير إلى `Download-PC/index.html` و`docs/index.html`. النسخ متطابقة إلا في سطر `HLTB_PROXY`: Netlify = `"/api/hltb"`، PC = الرابط المطلق لدالة Netlify، docs (GitHub Pages) = `""`.
 - بعد أي تعديل نهائي، أعد إنشاء ZIPs:
 
 ```powershell
@@ -192,8 +184,9 @@ Compress-Archive -Path "Download-PC\*" -DestinationPath "Gaming-Backlog-PC.zip" 
 
 ```text
 Netlify/netlify/functions/hltb.mjs
-Download-PC/hltb.mjs
 ```
+
+(نسخة PC تستخدم نفس الدالة عن بُعد عبر `HLTB_PROXY` المطلق — لا يوجد وسيط محلي.)
 
 ## أفكار لاحقة اختيارية
 

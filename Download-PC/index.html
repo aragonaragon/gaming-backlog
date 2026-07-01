@@ -503,8 +503,10 @@
 
 <script>
 const RAWG_KEY = "031db013391842b4b38ab2ca874f98c5";
-// وسيط HowLongToBeat مضبوط على دالة Netlify المرفقة (نفس الدومين).
-const HLTB_PROXY = "/api/hltb";
+// نسخة الـPC: تجيب أوقات HLTB من دالة Netlify الحيّة مباشرة —
+// فتشتغل بمجرد فتح الملف بالدبل-كليك (بدون Node ولا سيرفر). يحتاج نت فقط.
+// لو غيّرت رابط موقعك على Netlify، بدّله هنا:
+const HLTB_PROXY = "https://backlogforever.netlify.app/api/hltb";
 const LIB_KEY  = "backlog_lib_v1";
 const $ = s => document.querySelector(s);
 
